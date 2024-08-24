@@ -4,83 +4,67 @@ const useLogic = () => {
     const words: WordProps[] = [
         {
             word: 'Grape',
-            group: 'fruits',
-            selected: false
+            group: 'fruits'
         },
         {
             word: 'Apple',
-            group: 'fruits',
-            selected: false
+            group: 'fruits'
         },
         {
             word: 'Watermelon',
-            group: 'fruits',
-            selected: false
+            group: 'fruits'
         },
         {
             word: 'Orange',
-            group: 'fruits',
-            selected: false
+            group: 'fruits'
         },
         {
             word: 'Blue',
-            group: 'colors',
-            selected: false
+            group: 'colors'
         },
         {
             word: 'Red',
-            group: 'colors',
-            selected: false
+            group: 'colors'
         },
         {
             word: 'Green',
-            group: 'colors',
-            selected: false
+            group: 'colors'
         },
         {
             word: 'Yellow',
-            group: 'colors',
-            selected: false
+            group: 'colors'
         },
         {
             word: 'Dog',
-            group: 'animals',
-            selected: false
+            group: 'animals'
         },
         {
             word: 'Cat',
-            group: 'animals',
-            selected: false
+            group: 'animals'
         },
         {
             word: 'Chicken',
-            group: 'animals',
-            selected: false
+            group: 'animals'
         },
         {
             word: 'Bird',
-            group: 'animals',
-            selected: false
+            group: 'animals'
         },
         {
             word: 'Brazil',
-            group: 'countries',
-            selected: false
+            group: 'countries'
         },
         {
             word: 'France',
-            group: 'countries',
-            selected: false
+            group: 'countries'
         },
         {
             word: 'India',
-            group: 'countries',
-            selected: false
+            group: 'countries'
         },
         {
             word: 'South Africa',
-            group: 'countries',
-            selected: false
+            group: 'countries'
         },
     ]
   return {words}

@@ -2,7 +2,7 @@
 
 import WordBox from "./components/WordBox";
 import useLogic from "./components/useLogic";
-// import useLogic from "./components/useLogic";
+import { useState } from "react";
 
 export default function Home() {
   const { words } = useLogic()
@@ -17,9 +17,9 @@ export default function Home() {
 
         <ul className="grid grid-cols-4 gap-4">
           {words?.map((word, group) => (
-            <li className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-100 hover:bg-slate-200 active:bg-slate-400" key={group}>
+            <li key={group}>
               <WordBox {...word} />
-              {/* colocar onClick para togglear o selected e active /\ */}
+              {/* colocar onClick para togglear o selected e active => entre selected e !selected/\ */}
             </li>
           ))}
         </ul>
