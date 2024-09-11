@@ -4,7 +4,7 @@ const useLogic = () => {
     const words: WordProps[] = [
         {
             word: 'Grape',
-            group: 'fruits'
+            group: 'fruits',
         },
         {
             word: 'Apple',

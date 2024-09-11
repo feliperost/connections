@@ -7,6 +7,12 @@ import { useState } from "react";
 export default function Home() {
   const { words } = useLogic()
 
+  const [selectedWords, setSelectedWords] = useState([]);
+
+  const handleSubmit = () => {
+    console.log('selected words:', selectedWords);
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="">
@@ -19,7 +25,7 @@ export default function Home() {
           {words?.map((word, group) => (
             <li key={group}>
               <WordBox {...word} />
-              {/* colocar onClick para togglear o selected e active => entre selected e !selected/\ */}
+
             </li>
           ))}
         </ul>
@@ -31,19 +37,8 @@ export default function Home() {
 
       <button>Shuffle</button>
       <button>Deselect all</button>
-      <button>Submit</button>
+      <button onClick={handleSubmit}>Submit</button>
 
     </main>
   );
 }
-
-
-// <ul className='@apply list-none w-full p-0'>
-// {words.map((item, index)=>(
-//     <li className='@apply mx-0 my-2.5' key={index}>
-//         <div className="w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-100">
-//         {item.word}
-//         </div>
-//     </li>
-// ))}
-// </ul>

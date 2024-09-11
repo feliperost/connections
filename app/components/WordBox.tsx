@@ -12,13 +12,15 @@ const WordBox = ({ word, group }: WordProps) => {
 
   return (
     <>
-      <button className={selected ? "font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-100 hover:bg-slate-200 active:bg-slate-400" : "font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"} id={group}
+      <button className={selected 
+      ? "font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
+      : "font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-100 hover:bg-slate-200 active:bg-slate-400"} 
+      id={group}
         onClick={() => {
           setSelected(!selected)
           console.log(selected)
+          console.log(word)
         }}>
-        {/* <button className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-100 hover:bg-slate-200 active:bg-slate-400 " id={group}
-        onClick={handleClick}> */}
             {word}
         </button>
     </>
