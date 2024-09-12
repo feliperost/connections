@@ -1,26 +1,28 @@
 "use client"; 
-
 import WordBox from "./components/WordBox";
 import useLogic from "./components/useLogic";
 import { useState } from "react";
 
 export default function Home() {
-  const { words } = useLogic()
+  const { words } = useLogic();
 
   // global state of selected words
-  const [selectedWords, setSelectedWords] = useState<{ word: string, group: string }[]>([]); 
+  const [selectedWords, setSelectedWords] = useState<{ word: string; group: string }[]>([]);
 
-  // function to add and remove word&group from an array when user clicks the word button
+  // function to add or remove word&group from an array when user clicks the word button
   const toggleWordSelection = (word: string, group: string, isSelected: boolean) => {
     if (isSelected) {
-      // if button state is selected and the user clicks it, it means the user wants to remove the clicked word from the list. 
-      setSelectedWords(prevWords => prevWords.filter(selectedWord => selectedWord.word !== word));
+      // if button state is selected and the user clicks it, it means the user wants to remove the clicked word from the list.
+      setSelectedWords(prevWords => prevWords.filter(w => w.word !== word));
     } else {
-      // if button state is not selected (which means the user now wants to select and add the word), adds the word to selected words list.
-      setSelectedWords(prevWords => [...prevWords, { word, group }]);
+      // if button state is not selected (meaning the user now wants to select and add the word), adds the word to selected words list. to do it, there needs to be less than 4 words selected.
+      if (selectedWords.length < 4) {
+        setSelectedWords(prevWords => [...prevWords, { word, group }]);
+      }
     }
   };
 
+  // for now, it only logs the selected words. later we will work on other functionalities
   const handleSubmit = () => {
     console.log('selected words:', selectedWords);
   };
@@ -32,14 +34,15 @@ export default function Home() {
       </div>
 
       <div>
-
         <ul className="grid grid-cols-4 gap-4">
-          {words?.map((word, group) => (
-            <li key={group}>
-              <WordBox {...word} 
-              toggleWordSelection={toggleWordSelection}
+          {words?.map((wordItem, index) => (
+            <li key={index}>
+              <WordBox 
+                word={wordItem.word} 
+                group={wordItem.group} 
+                selectedWords={selectedWords} // Passa o estado atual
+                toggleWordSelection={toggleWordSelection} // Função de alternância
               />
-              
             </li>
           ))}
         </ul>
@@ -51,9 +54,7 @@ export default function Home() {
 
       <button>Shuffle</button>
       <button>Deselect all</button>
-      <button className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400" 
-      onClick={handleSubmit}>Submit</button>
-
+      <button onClick={handleSubmit}>Submit</button>
     </main>
   );
 }
