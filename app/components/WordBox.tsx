@@ -4,36 +4,43 @@ import { useState } from "react";
 export type WordProps = { 
   word: string; 
   group: string;
-  // global state coming through parent \/
-  selectedWords: { word: string; group: string }[]; 
-  // toggle function coming through the parent \/
-  toggleWordSelection: (word: string, group: string, isSelected: boolean) => void; 
+  selectedWords: { word: string; group: string }[]; // global state
+  lockedWords: { word: string; group: string }[]; // locked (static colored effect) state
+  toggleWordSelection: (word: string, group: string, isSelected: boolean) => void; // function from parent
 };
 
-const WordBox = ({ word, group, selectedWords, toggleWordSelection }: WordProps) => {
+const WordBox = ({ word, group, selectedWords, lockedWords, toggleWordSelection }: WordProps) => {
 
   // const to check if the word is selected
   const isSelected = selectedWords.some(selected => selected.word === word); 
 
+  // const to check if the word is locked (part of the words locked after submit)
+  const isLocked = lockedWords.some(locked => locked.word === word); 
+
   const handleClick = () => {
-    // this checks if the word the user wants to click is already selected, and checks if there are less than 4 words selected
-    if (!isSelected && selectedWords.length >= 4) {
-      return; 
-      // if there are already 4 words selected, does nothing (blocking selecting more than 4 words)
+    // prevents interaction with locked words
+    if (isLocked) {
+      return;
     }
 
-    // on click, adds or removes the word & group from the list of selected elements.
+    // prevents selecting more than 4 words
+    if (!isSelected && selectedWords.length >= 4) {
+      return;
+    }
+
+    // toggles the word selection
     toggleWordSelection(word, group, isSelected);
   };
 
   return (
     <button
-      className={isSelected 
+      className={isLocked 
+        ? "font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-red-500"
+        : isSelected 
         ? "font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
         : "font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-100 hover:bg-slate-200 active:bg-slate-400"}
       id={group}
-      onClick={handleClick}
-    >
+      onClick={handleClick}>
       {word}
     </button>
   );
