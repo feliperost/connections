@@ -12,7 +12,7 @@ export default function Home() {
   // state to track words that are locked (pressing submit makes them static when all 4 are from the same group)
   const [lockedWords, setLockedWords] = useState<{ word: string; group: string }[]>([]);
 
-  // function to add or remove word&group from an array when user clicks the word button
+  // function to add or remove word&group from selected array when user clicks the word button
   const toggleWordSelection = (word: string, group: string, isSelected: boolean) => {
     if (isSelected) {
       // if button state is selected and the user clicks it, it means the user wants to remove the clicked word from the list.
@@ -28,16 +28,17 @@ export default function Home() {
   // handle submit, checks for 4 selected words of the same group
   const handleSubmit = () => {
     if (selectedWords.length === 4) {
+      // grabs the group of first selected word
       const group = selectedWords[0].group;
 
-      // check if all selected words belong to the same group
+      // check if all selected words belong to the same group grabbed before
       const allSameGroup = selectedWords.every(word => word.group === group);
 
       if (allSameGroup) {
         // lock the words (make them static and change color to red)
         setLockedWords(prevLocked => [...prevLocked, ...selectedWords]);
         // clear the selected words after locking them
-        setSelectedWords([]);
+        deselectAll();
       }
     }
 
