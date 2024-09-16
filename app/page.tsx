@@ -1,13 +1,39 @@
 "use client"; 
 import WordBox from "./components/WordBox";
 import useLogic from "./components/useLogic";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const { words } = useLogic();
 
   // global state of selected words
   const [selectedWords, setSelectedWords] = useState<{ word: string; group: string }[]>([]);
+
+  // state to hold the shuffled words
+  const [shuffledWords, setShuffledWords] = useState<{ word: string; group: string }[]>([]);
+
+  // shuffle function using Fisher-Yates algorithm
+  const shuffleArray = (array: { word: string; group: string }[]) => {
+    const shuffled = [...array]; // clone the array to avoid modifying the original one
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // swap elements
+    }
+    return shuffled;
+  };
+
+  // useEffect to shuffle words when the component mounts
+  useEffect(() => {
+    if (words && words.length > 0 && shuffledWords.length === 0) {
+      setShuffledWords(shuffleArray(words)); // shuffle only if shuffledWords is empty
+    }
+  }, [words, shuffledWords.length]); // this ensures the shuffle happens when words are first loaded
+
+  // function to shuffle words when the "Shuffle" button is clicked
+  const handleShuffle = () => {
+    setShuffledWords(shuffleArray(words)); 
+    // reshuffles the words array when button is clicked
+  };
 
   // state to track words that are locked (pressing submit makes them static when all 4 are from the same group)
   const [lockedWords, setLockedWords] = useState<{ word: string; group: string }[]>([]);
@@ -41,7 +67,6 @@ export default function Home() {
         deselectAll();
       }
     }
-
     console.log('selected words:', selectedWords);
   };
 
@@ -58,7 +83,7 @@ export default function Home() {
 
       <div>
         <ul className="grid grid-cols-4 gap-4">
-          {words?.map((wordItem, index) => (
+          {shuffledWords?.map((wordItem, index) => (
             <li key={index}>
               <WordBox 
                 word={wordItem.word} 
@@ -76,7 +101,8 @@ export default function Home() {
         Mistakes remaining:
       </div>
 
-      <button>Shuffle</button>
+      <button className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
+      onClick={handleShuffle}>Shuffle</button>
 
       <button 
       className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
