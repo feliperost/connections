@@ -5,17 +5,15 @@ export type WordProps = {
   word: string; 
   group: string;
   selectedWords: { word: string; group: string }[]; // global state
-  lockedWords: { word: string; group: string }[]; // locked (static colored effect) state
+   // locked (static colored effect) state
   toggleWordSelection: (word: string, group: string, isSelected: boolean) => void; // function from parent
+  isLocked?: boolean; // prop to handle locked words state
 };
 
-const WordBox = ({ word, group, selectedWords, lockedWords, toggleWordSelection }: WordProps) => {
+const WordBox = ({ word, group, selectedWords, toggleWordSelection, isLocked = false }: WordProps) => {
 
   // const to check if the word is selected
   const isSelected = selectedWords.some(selected => selected.word === word); 
-
-  // const to check if the word is locked (part of the words locked after submit)
-  const isLocked = lockedWords.some(locked => locked.word === word); 
 
   // for now the groups are hardcoded, later we will work on a logic to fix this
   const getColorByGroup = () => {
@@ -48,11 +46,7 @@ const WordBox = ({ word, group, selectedWords, lockedWords, toggleWordSelection 
 
   return (
     <button
-      className={isLocked 
-        ? `font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center ${getColorByGroup()}`
-        : isSelected 
-        ? "font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
-        : "font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-100 hover:bg-slate-200 active:bg-slate-400"}
+      className={`${isLocked ? getColorByGroup() : isSelected ? "bg-slate-400" : "bg-slate-100"} font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center`}
       id={group}
       onClick={handleClick}>
       {word}

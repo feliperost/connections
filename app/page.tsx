@@ -6,11 +6,14 @@ import { useState, useEffect } from "react";
 export default function Home() {
   const { words } = useLogic();
 
-  // global state of selected words
+  // state of selected words
   const [selectedWords, setSelectedWords] = useState<{ word: string; group: string }[]>([]);
 
   // state to hold the shuffled words
   const [shuffledWords, setShuffledWords] = useState<{ word: string; group: string }[]>([]);
+
+  // state for locked words, pressing submit makes them static when all 4 are from the same group and display them at the top of grid
+  const [lockedWords, setLockedWords] = useState<{ word: string; group: string }[][]>([]);
 
   // shuffle function using Fisher-Yates algorithm
   const shuffleArray = (array: { word: string; group: string }[]) => {
@@ -25,18 +28,14 @@ export default function Home() {
   // useEffect to shuffle words when the component mounts
   useEffect(() => {
     if (words && words.length > 0 && shuffledWords.length === 0) {
-      setShuffledWords(shuffleArray(words)); // shuffle only if shuffledWords is empty
+      setShuffledWords(shuffleArray(words)); // shuffles only if shuffledWords is empty
     }
   }, [words, shuffledWords.length]); // this ensures the shuffle happens when words are first loaded
 
   // function to shuffle words when the "Shuffle" button is clicked
   const handleShuffle = () => {
     setShuffledWords(shuffleArray(words)); 
-    // reshuffles the words array when button is clicked
   };
-
-  // state to track words that are locked (pressing submit makes them static when all 4 are from the same group)
-  const [lockedWords, setLockedWords] = useState<{ word: string; group: string }[]>([]);
 
   // function to add or remove word&group from selected array when user clicks the word button
   const toggleWordSelection = (word: string, group: string, isSelected: boolean) => {
@@ -53,21 +52,13 @@ export default function Home() {
 
   // handle submit, checks for 4 selected words of the same group
   const handleSubmit = () => {
-    if (selectedWords.length === 4) {
-      // grabs the group of first selected word
-      const group = selectedWords[0].group;
-
-      // check if all selected words belong to the same group grabbed before
-      const allSameGroup = selectedWords.every(word => word.group === group);
-
-      if (allSameGroup) {
-        // lock the words (make them static and change color to red)
-        setLockedWords(prevLocked => [...prevLocked, ...selectedWords]);
-        // clear the selected words after locking them
-        deselectAll();
-      }
+    if (selectedWords.length === 4 && selectedWords.every(w => w.group === selectedWords[0].group)) {
+      // if all 4 selected words are from the same group, sends them to locked words and resets selected words \/
+      setLockedWords(prevLockedWords => [...prevLockedWords, selectedWords]);
+      setSelectedWords([]);
+    } else {
+      console.log('Selected words:', selectedWords);
     }
-    console.log('selected words:', selectedWords);
   };
 
   // clears all selected words (resets the selectedWords array)
@@ -83,34 +74,55 @@ export default function Home() {
 
       <div>
         <ul className="grid grid-cols-4 gap-4">
-          {shuffledWords?.map((wordItem, index) => (
+          {/* a version of the WordBox component that only shows locked words/groups */}
+          {lockedWords.flat().map((wordItem, index) => (
             <li key={index}>
               <WordBox 
                 word={wordItem.word} 
                 group={wordItem.group} 
-                selectedWords={selectedWords} // current state
-                lockedWords={lockedWords} // locked words state
-                toggleWordSelection={toggleWordSelection} // toggling function
+                selectedWords={[]} // locked words won't change
+                toggleWordSelection={() => {}} // locked words can't be selected
+                isLocked={true} // mark as locked (used to style the button)
               />
             </li>
+          ))}
+
+          {/* and here it displays the remaining words */}
+          {shuffledWords
+            .filter(wordItem => !lockedWords.flat().some(lockedWord => lockedWord.word === wordItem.word))
+            .map((wordItem, index) => (
+              <li key={index}>
+                <WordBox 
+                  word={wordItem.word} 
+                  group={wordItem.group} 
+                  selectedWords={selectedWords} // current state
+                  toggleWordSelection={toggleWordSelection} // toggling function
+                />
+              </li>
           ))}
         </ul>
       </div>
 
+    
       <div className="">
         Mistakes remaining:
       </div>
 
-      <button className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
-      onClick={handleShuffle}>Shuffle</button>
+      <div>
+        <button className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
+        onClick={handleShuffle}>Shuffle</button>
 
-      <button 
-      className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
-      onClick={deselectAll}>Deselect all</button>
+        <button 
+        className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
+        onClick={deselectAll}>Deselect all</button>
 
-      <button 
-      className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400" 
-      onClick={handleSubmit}>Submit</button>
+        <button 
+        className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400" 
+        onClick={handleSubmit}>Submit</button>
+      </div>
     </main>
   );
 }
+
+
+
