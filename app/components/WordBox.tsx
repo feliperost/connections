@@ -4,18 +4,19 @@ import { useState } from "react";
 export type WordProps = { 
   word: string; 
   group: string;
-  selectedWords: { word: string; group: string }[]; // global state
+  selectedWords?: { word: string; group: string }[]; // global state
    // locked (static colored effect) state
-  toggleWordSelection: (word: string, group: string, isSelected: boolean) => void; // function from parent
+  toggleWordSelection?: (word: string, group: string, isSelected: boolean) => void; // function from parent
   isLocked?: boolean; // prop to handle locked words state
+  // some of these are optional (?) because we may not use them on the locked words on page.tsx
 };
 
-const WordBox = ({ word, group, selectedWords, toggleWordSelection, isLocked = false }: WordProps) => {
+const WordBox = ({ word, group, selectedWords = [], toggleWordSelection, isLocked = false }: WordProps) => {
 
   // const to check if the word is selected
   const isSelected = selectedWords.some(selected => selected.word === word); 
 
-  // for now the groups are hardcoded, later we will work on a logic to fix this
+  // for now the groups are hardcoded (countries animals etc), later we will try to work on a logic to fix this
   const getColorByGroup = () => {
     switch (group) {
       case "countries":
@@ -32,7 +33,7 @@ const WordBox = ({ word, group, selectedWords, toggleWordSelection, isLocked = f
   };
 
   const handleClick = () => {
-    // prevents interaction with locked words
+    // prevents interaction with locked words, returns nothing
     if (isLocked) {
       return;
     }
@@ -41,7 +42,7 @@ const WordBox = ({ word, group, selectedWords, toggleWordSelection, isLocked = f
       return;
     }
     // toggles the word selection
-    toggleWordSelection(word, group, isSelected);
+    toggleWordSelection?.(word, group, isSelected);
   };
 
   return (

@@ -72,38 +72,52 @@ export default function Home() {
         Make groups of 4
       </div>
 
-      <div>
-        <ul className="grid grid-cols-4 gap-4">
-          {/* a version of the WordBox component that only shows locked words/groups */}
-          {lockedWords.flat().map((wordItem, index) => (
-            <li key={index}>
-              <WordBox 
-                word={wordItem.word} 
-                group={wordItem.group} 
-                selectedWords={[]} // locked words won't change
-                toggleWordSelection={() => {}} // locked words can't be selected
-                isLocked={true} // mark as locked (used to style the button)
-              />
-            </li>
-          ))}
 
-          {/* and here it displays the remaining words */}
+      <div>
+        {/* a version of the WordBox component that only shows locked words&groups, and displays the group above of row of locked words */}
+        {lockedWords.map((groupWords, index) => (
+          <div key={index}>
+            {/* renders group name here */}
+            <div className="text-center font-bold uppercase mb-2">
+              Group: {groupWords[0].group}
+            </div>
+            {/* renders the locked words */}
+            <ul className="grid grid-cols-4 gap-4">
+              {groupWords.map((wordItem, i) => (
+                <li key={i}>
+                  <WordBox 
+                  word={wordItem.word} 
+                  group={wordItem.group} 
+                  isLocked={true} // mark as locked (used to style the button)
+                  // we are not passing selectedWords and toggleWordSelection as they are optional now, so locked words can't be selected and changed
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-8">
+        {/* here it displays the remaining words, filtering first the locked ones above */}
+        {/* flat() is used so we can iterate through the array */}
+        <ul className="grid grid-cols-4 gap-4">
           {shuffledWords
             .filter(wordItem => !lockedWords.flat().some(lockedWord => lockedWord.word === wordItem.word))
             .map((wordItem, index) => (
               <li key={index}>
-                <WordBox 
-                  word={wordItem.word} 
-                  group={wordItem.group} 
+                <WordBox
+                  word={wordItem.word}
+                  group={wordItem.group}
                   selectedWords={selectedWords} // current state
                   toggleWordSelection={toggleWordSelection} // toggling function
                 />
               </li>
-          ))}
+            ))}
         </ul>
       </div>
 
-    
+
       <div className="">
         Mistakes remaining:
       </div>
