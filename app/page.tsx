@@ -66,6 +66,23 @@ export default function Home() {
     setSelectedWords([]); 
   };
 
+  // changes the color of words and groups 
+  // for now the groups are hardcoded (countries animals etc), later we will try to work on a logic to fix this
+  const getColorByGroup = (group: string) => {
+    switch (group) {
+      case "countries":
+        return "bg-purple-400/90"; 
+      case "animals":
+        return "bg-blue-200"; 
+      case "fruits":
+        return "bg-yellow-200"; 
+      case "colors":
+        return "bg-lime-500/60"; 
+      default:
+        return "bg-gray-400"; 
+    }
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="">
@@ -76,10 +93,10 @@ export default function Home() {
       <div>
         {/* a version of the WordBox component that only shows locked words&groups, and displays the group above of row of locked words */}
         {lockedWords.map((groupWords, index) => (
-          <div key={index}>
+          <div key={index} className={`p-4 ${getColorByGroup(groupWords[0].group)}`}>
             {/* renders group name here */}
             <div className="text-center font-bold uppercase mb-2">
-              Group: {groupWords[0].group}
+              {groupWords[0].group}
             </div>
             {/* renders the locked words */}
             <ul className="grid grid-cols-4 gap-4">

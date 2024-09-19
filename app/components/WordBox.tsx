@@ -1,5 +1,5 @@
 "use client"; 
-import { useState } from "react";
+import getColorByGroup from '../page'; // using to change the color of the button
 
 export type WordProps = { 
   word: string; 
@@ -15,22 +15,6 @@ const WordBox = ({ word, group, selectedWords = [], toggleWordSelection, isLocke
 
   // const to check if the word is selected
   const isSelected = selectedWords.some(selected => selected.word === word); 
-
-  // for now the groups are hardcoded (countries animals etc), later we will try to work on a logic to fix this
-  const getColorByGroup = () => {
-    switch (group) {
-      case "countries":
-        return "bg-purple-400/90"; 
-      case "animals":
-        return "bg-blue-200"; 
-      case "fruits":
-        return "bg-yellow-200"; 
-      case "colors":
-        return "bg-lime-500/60"; 
-      default:
-        return "bg-gray-400"; 
-    }
-  };
 
   const handleClick = () => {
     // prevents interaction with locked words, returns nothing
