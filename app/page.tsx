@@ -15,6 +15,9 @@ export default function Home() {
   // state for locked words, pressing submit makes them static when all 4 are from the same group and display them at the top of grid
   const [lockedWords, setLockedWords] = useState<{ word: string; group: string }[][]>([]);
 
+  // state to control number of tries and mistakes the user can make
+  const [mistakesRemaining, setMistakesRemaining] = useState(4);
+
   // shuffle function using Fisher-Yates algorithm
   const shuffleArray = (array: { word: string; group: string }[]) => {
     const shuffled = [...array]; // clone the array to avoid modifying the original one
@@ -49,16 +52,22 @@ export default function Home() {
       }
     }
   };
-
-  // handle submit, checks for 4 selected words of the same group
+      
+  // handle submit, first it checks for 4 selected words of the same group
   const handleSubmit = () => {
-    if (selectedWords.length === 4 && selectedWords.every(w => w.group === selectedWords[0].group)) {
+    if (selectedWords.length === 4) {
+      const allSameGroup = selectedWords.every(word => word.group === selectedWords[0].group);
+      
       // if all 4 selected words are from the same group, sends them to locked words and resets selected words \/
-      setLockedWords(prevLockedWords => [...prevLockedWords, selectedWords]);
-      setSelectedWords([]);
-    } else {
-      console.log('Selected words:', selectedWords);
+      if (allSameGroup) {
+        setLockedWords(prevLocked => [...prevLocked, selectedWords]);
+        setSelectedWords([]);
+      } else {
+        // if they aren't all from same group, decrease mistakes remaining by 1
+        setMistakesRemaining(prev => prev - 1);
+      }
     }
+    console.log('selected words:', selectedWords);
   };
 
   // clears all selected words (resets the selectedWords array)
@@ -134,22 +143,29 @@ export default function Home() {
         </ul>
       </div>
 
-
+      {/* display of mistakes, reaches game over if mistakesRemaining is 0 */}
       <div className="">
-        Mistakes remaining:
+        {mistakesRemaining > 0 ? (
+          <>Mistakes remaining: {mistakesRemaining}</>
+        ) : (
+          <div className="">Game Over!</div>
+        )}
       </div>
 
       <div>
         <button className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
-        onClick={handleShuffle}>Shuffle</button>
+        onClick={handleShuffle}
+        disabled={mistakesRemaining <= 0}>Shuffle</button>
 
         <button 
         className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
-        onClick={deselectAll}>Deselect all</button>
+        onClick={deselectAll}
+        disabled={mistakesRemaining <= 0}>Deselect all</button>
 
         <button 
         className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400" 
-        onClick={handleSubmit}>Submit</button>
+        onClick={handleSubmit}
+        disabled={mistakesRemaining <= 0}>Submit</button>
       </div>
     </main>
   );
