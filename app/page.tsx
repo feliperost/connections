@@ -143,10 +143,10 @@ export default function Home() {
         </ul>
       </div>
 
-      {/* display of mistakes, reaches game over if mistakesRemaining is 0 */}
-      <div className="">
+      {/* display of mistakes, reaches game over if mistakesRemaining is 0. later we will style these properly */}
+      <div>
         {mistakesRemaining > 0 ? (
-          <>Mistakes remaining: {mistakesRemaining}</>
+          <div className="">Mistakes remaining: {mistakesRemaining}</div>
         ) : (
           <div className="">Game Over!</div>
         )}
