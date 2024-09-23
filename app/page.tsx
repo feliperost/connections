@@ -21,9 +21,9 @@ export default function Home() {
   // shuffle function using Fisher-Yates algorithm
   const shuffleArray = (array: { word: string; group: string }[]) => {
     const shuffled = [...array]; // clone the array to avoid modifying the original one
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // swap elements
+    for (let i = shuffled.length - 1; i > 0; i--) { // goes through the array backwards
+      const j = Math.floor(Math.random() * (i + 1)); // gets a random index from 0 to i
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // swap elements around with random index
     }
     return shuffled;
   };
@@ -75,6 +75,12 @@ export default function Home() {
     setSelectedWords([]); 
   };
 
+  // function to organize words to display them when the game is over
+  // gets the array and sorts it alphabetically
+  const organizeWordsByGroup = (words: { word: string; group: string }[]) => {
+    return words.sort((a, b) => a.group.localeCompare(b.group));
+  };
+
   // changes the color of words and groups 
   // for now the groups are hardcoded (countries animals etc), later we will try to work on a logic to fix this
   const getColorByGroup = (group: string) => {
@@ -97,76 +103,114 @@ export default function Home() {
       <div className="">
         Make groups of 4
       </div>
-
-
-      <div>
-        {/* a version of the WordBox component that only shows locked words&groups, and displays the group above of row of locked words */}
-        {lockedWords.map((groupWords, index) => (
-          <div key={index} className={`p-4 ${getColorByGroup(groupWords[0].group)}`}>
-            {/* renders group name here */}
-            <div className="text-center font-bold uppercase mb-2">
-              {groupWords[0].group}
-            </div>
-            {/* renders the locked words */}
+  
+      {/* initial check to see if the game can be played. if there are 0 mistakes remaining, GAME OVER case below. */}
+      {mistakesRemaining > 0 ? (
+        <>
+          <div>
+            {/* a version of the WordBox component that only shows locked words&groups, and displays the group above of row of locked words */}
+            {lockedWords.map((groupWords, index) => (
+              <div key={index} className={`p-4 ${getColorByGroup(groupWords[0].group)}`}>
+                {/* renders group name here */}
+                <div className="text-center font-bold uppercase mb-2">
+                  {groupWords[0].group}
+                </div>
+                {/* renders the locked words */}
+                <ul className="grid grid-cols-4 gap-4">
+                  {groupWords.map((wordItem, index) => (
+                    <li key={index}>
+                      <WordBox 
+                        word={wordItem.word} 
+                        group={wordItem.group} 
+                        isLocked={true} // mark as locked (used to style the button)
+                        // we are not passing selectedWords and toggleWordSelection as they are optional, so locked words can't be selected and changed
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+  
+          <div className="mt-8">
+            {/* here it displays the remaining words, filtering first the locked ones above */}
+            {/* flat() is used so we can iterate through the array */}
             <ul className="grid grid-cols-4 gap-4">
-              {groupWords.map((wordItem, i) => (
-                <li key={i}>
-                  <WordBox 
-                  word={wordItem.word} 
-                  group={wordItem.group} 
-                  isLocked={true} // mark as locked (used to style the button)
-                  // we are not passing selectedWords and toggleWordSelection as they are optional now, so locked words can't be selected and changed
-                  />
-                </li>
-              ))}
+              {shuffledWords
+                .filter(wordItem => !lockedWords.flat().some(lockedWord => lockedWord.word === wordItem.word))
+                .map((wordItem, index) => (
+                  <li key={index}>
+                    <WordBox
+                      word={wordItem.word}
+                      group={wordItem.group}
+                      selectedWords={selectedWords} // current state
+                      toggleWordSelection={toggleWordSelection} // toggling function
+                    />
+                  </li>
+                ))}
             </ul>
           </div>
-        ))}
-      </div>
-
-      <div className="mt-8">
-        {/* here it displays the remaining words, filtering first the locked ones above */}
-        {/* flat() is used so we can iterate through the array */}
-        <ul className="grid grid-cols-4 gap-4">
-          {shuffledWords
-            .filter(wordItem => !lockedWords.flat().some(lockedWord => lockedWord.word === wordItem.word))
-            .map((wordItem, index) => (
-              <li key={index}>
-                <WordBox
-                  word={wordItem.word}
-                  group={wordItem.group}
-                  selectedWords={selectedWords} // current state
-                  toggleWordSelection={toggleWordSelection} // toggling function
-                />
-              </li>
-            ))}
-        </ul>
-      </div>
-
-      {/* display of mistakes, reaches game over if mistakesRemaining is 0. later we will style these properly */}
-      <div>
-        {mistakesRemaining > 0 ? (
-          <div className="">Mistakes remaining: {mistakesRemaining}</div>
-        ) : (
-          <div className="">Game Over!</div>
-        )}
-      </div>
-
-      <div>
-        <button className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
-        onClick={handleShuffle}
-        disabled={mistakesRemaining <= 0}>Shuffle</button>
-
-        <button 
-        className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
-        onClick={deselectAll}
-        disabled={mistakesRemaining <= 0}>Deselect all</button>
-
-        <button 
-        className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400" 
-        onClick={handleSubmit}
-        disabled={mistakesRemaining <= 0}>Submit</button>
-      </div>
+  
+          {/* display of mistakes, reaches game over if mistakesRemaining is 0. later we will style these properly */}
+          <div>
+            Mistakes remaining: {mistakesRemaining}
+          </div>
+  
+          <div>
+            <button
+              className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
+              onClick={handleShuffle}
+              disabled={mistakesRemaining <= 0}>
+              Shuffle
+            </button>
+  
+            <button
+              className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
+              onClick={deselectAll}
+              disabled={mistakesRemaining <= 0}>
+              Deselect all
+            </button>
+  
+            <button
+              className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
+              onClick={handleSubmit}
+              disabled={mistakesRemaining <= 0}>
+              Submit
+            </button>
+          </div>
+        </>
+      ) : (
+        // GAME OVER: words are organized and displayed by group 
+        <div className="">
+          {/* organizing words by group */}
+          {Object.entries(
+            shuffledWords.reduce((acc, wordItem) => {
+              if (!acc[wordItem.group]) acc[wordItem.group] = [];
+              acc[wordItem.group].push(wordItem);
+              return acc;
+            }, {} as { [key: string]: { word: string; group: string }[] })
+          ).map(([group, words], index) => (
+            <div key={index} className={`p-4 ${getColorByGroup(group)}`}>
+              {/* renders group name */}
+              <div className="text-center font-bold uppercase mb-2">
+                {group}
+              </div>
+              {/* renders the words in the group */}
+              <ul className="grid grid-cols-4 gap-4">
+                {words.map((wordItem, index) => (
+                  <li key={index}>
+                    <WordBox 
+                      word={wordItem.word} 
+                      group={wordItem.group} 
+                      isLocked={true} // mark as locked (used to style the button)
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
     </main>
   );
 }

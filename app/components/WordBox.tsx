@@ -21,7 +21,7 @@ const WordBox = ({ word, group, selectedWords = [], toggleWordSelection, isLocke
     if (isLocked) {
       return;
     }
-    // prevents selecting more than 4 words
+    // prevents selecting more than 4 words, returns nothing
     if (!isSelected && selectedWords.length >= 4) {
       return;
     }
