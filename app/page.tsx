@@ -99,8 +99,8 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="">
+    <main className="flex min-h-screen flex-col items-center justify-start p-15">
+      <div className="mt-20">
         Make groups of 4
       </div>
   
@@ -110,7 +110,7 @@ export default function Home() {
           <div>
             {/* a version of the WordBox component that only shows locked words&groups, and displays the group above of row of locked words */}
             {lockedWords.map((groupWords, index) => (
-              <div key={index} className={`p-4 ${getColorByGroup(groupWords[0].group)}`}>
+              <div key={index} className={`p-2 ${getColorByGroup(groupWords[0].group)}`}>
                 {/* renders group name here */}
                 <div className="text-center font-bold uppercase mb-2">
                   {groupWords[0].group}
@@ -152,11 +152,11 @@ export default function Home() {
           </div>
   
           {/* display of mistakes, reaches game over if mistakesRemaining is 0. later we will style these properly */}
-          <div>
+          <div className="mt-8">
             Mistakes remaining: {mistakesRemaining}
           </div>
   
-          <div>
+          <div className="mt-5">
             <button
               className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
               onClick={handleShuffle}
@@ -190,7 +190,7 @@ export default function Home() {
               return acc;
             }, {} as { [key: string]: { word: string; group: string }[] })
           ).map(([group, words], index) => (
-            <div key={index} className={`p-4 ${getColorByGroup(group)}`}>
+            <div key={index} className={`p-2 ${getColorByGroup(group)}`}>
               {/* renders group name */}
               <div className="text-center font-bold uppercase mb-2">
                 {group}
