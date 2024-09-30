@@ -107,10 +107,10 @@ export default function Home() {
       {/* initial check to see if the game can be played. if there are 0 mistakes remaining, GAME OVER case below. */}
       {mistakesRemaining > 0 ? (
         <>
-          <div>
+          <div className="">
             {/* a version of the WordBox component that only shows locked words&groups, and displays the group above of row of locked words */}
             {lockedWords.map((groupWords, index) => (
-              <div key={index} className={`p-2 ${getColorByGroup(groupWords[0].group)}`}>
+              <div key={index} className={`fade-in p-2 ${getColorByGroup(groupWords[0].group)}`}>
                 {/* renders group name here */}
                 <div className="text-center font-bold uppercase mb-2">
                   {groupWords[0].group}
@@ -181,7 +181,7 @@ export default function Home() {
         </>
       ) : (
         // GAME OVER: words are organized and displayed by group 
-        <div className="">
+        <div className="fade-in">
           {/* organizing words by group */}
           {Object.entries(
             shuffledWords.reduce((acc, wordItem) => {
