@@ -75,10 +75,16 @@ export default function Home() {
     setSelectedWords([]); 
   };
 
-  // function to organize words to display them when the game is over
-  // gets the array and sorts it alphabetically
+  // function to organize words by their group to display them when the game is over
+  // it reduces the array into an object of grouped words
   const organizeWordsByGroup = (words: { word: string; group: string }[]) => {
-    return words.sort((a, b) => a.group.localeCompare(b.group));
+    return Object.entries(
+      words.reduce((groupedWords, wordItem) => {
+        if (!groupedWords[wordItem.group]) groupedWords[wordItem.group] = [];
+        groupedWords[wordItem.group].push(wordItem);
+        return groupedWords;
+      }, {} as { [key: string]: { word: string; group: string }[] })
+    );
   };
 
   // changes the color of words and groups 
@@ -183,13 +189,7 @@ export default function Home() {
         // GAME OVER: words are organized and displayed by group 
         <div className="fade-in">
           {/* organizing words by group */}
-          {Object.entries(
-            shuffledWords.reduce((acc, wordItem) => {
-              if (!acc[wordItem.group]) acc[wordItem.group] = [];
-              acc[wordItem.group].push(wordItem);
-              return acc;
-            }, {} as { [key: string]: { word: string; group: string }[] })
-          ).map(([group, words], index) => (
+          {organizeWordsByGroup(shuffledWords).map(([group, words], index) => (
             <div key={index} className={`p-2 ${getColorByGroup(group)}`}>
               {/* renders group name */}
               <div className="text-center font-bold uppercase mb-2">
@@ -214,6 +214,3 @@ export default function Home() {
     </main>
   );
 }
-
-
-
