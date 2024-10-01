@@ -80,10 +80,12 @@ export default function Home() {
   const organizeWordsByGroup = (words: { word: string; group: string }[]) => {
     return Object.entries(
       words.reduce((groupedWords, wordItem) => {
+        // reduce is a method that iterates through the words array. groupedWords (an "accumulator") is an object that will collect the words by their groups.
         if (!groupedWords[wordItem.group]) groupedWords[wordItem.group] = [];
         groupedWords[wordItem.group].push(wordItem);
         return groupedWords;
       }, {} as { [key: string]: { word: string; group: string }[] })
+      // /\ this is the initial value for the accumulator groupedWords ({}). its an object with string keys (the group names) and arrays of word objects as values
     );
   };
 
@@ -113,7 +115,7 @@ export default function Home() {
       {/* initial check to see if the game can be played. if there are 0 mistakes remaining, GAME OVER case below. */}
       {mistakesRemaining > 0 ? (
         <>
-          <div className="">
+          <div className="mt-8">
             {/* a version of the WordBox component that only shows locked words&groups, and displays the group above of row of locked words */}
             {lockedWords.map((groupWords, index) => (
               <div key={index} className={`fade-in p-2 ${getColorByGroup(groupWords[0].group)}`}>
@@ -157,9 +159,13 @@ export default function Home() {
             </ul>
           </div>
   
-          {/* display of mistakes, reaches game over if mistakesRemaining is 0. later we will style these properly */}
+          {/* display of mistakes, reaches game over if mistakesRemaining is 0. 
+          .repeat repeats "•" according to number of mistakes remaining. */}
           <div className="mt-8">
-            Mistakes remaining: {mistakesRemaining}
+            Mistakes remaining:
+            <span className="ml-2 text-4xl">
+              {"• ".repeat(mistakesRemaining)}
+            </span>
           </div>
   
           <div className="mt-5">
@@ -187,7 +193,7 @@ export default function Home() {
         </>
       ) : (
         // GAME OVER: words are organized and displayed by group 
-        <div className="fade-in">
+        <div className="fade-in mt-8">
           {/* organizing words by group */}
           {organizeWordsByGroup(shuffledWords).map(([group, words], index) => (
             <div key={index} className={`p-2 ${getColorByGroup(group)}`}>
