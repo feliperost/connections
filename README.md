@@ -6,6 +6,7 @@ This is a study project trying to recreate the NY Times game "Connections". Play
 - Each group has 4 words and exactly one solution. The game may trick you with words that seem to belong to multiple categories.
 - Click the words to select them, and click "Submit" to check if your guess is correct.
 - You can make 4 mistakes before the game is over.
+- For development purposes, the words and groups may be very easy to identify.
 
 ## Breaking down the development thought process
 - We need to be able to display words coming through a list in a 4x4 grid.
@@ -13,7 +14,8 @@ This is a study project trying to recreate the NY Times game "Connections". Play
 - The user must be able to select and de-select words.
 - We need to limit to a maxixum of 4 selected words.
 - We need to create a button that shuffles and scrambles again the displayed words (rearranging the words may help the player).
-- If the words submitted are from the same group, they are moved to a state of locked non-interactable words, which displays the correct words so far. when all 4 groups are found and there are no more words to be selected, the game ends and the player wins.
+- If the words submitted are from the same group, they are moved to a state of locked non-interactable words, which displays the correct words so far. Each group has a corresponding color.
+- When all 4 groups are found and there are no more words to be selected, the game ends and the player wins.
 - If the words selected and submitted are NOT from the same group, the user makes a mistake, and loses 1 'life'.
 - We need to display how many mistakes remaining the player have, which may change as the game goes on.
 - If there are no more mistakes remaining, the game is over, and the correct solution is displayed.
