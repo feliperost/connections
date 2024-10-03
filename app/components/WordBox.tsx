@@ -31,7 +31,7 @@ const WordBox = ({ word, group, selectedWords = [], toggleWordSelection, isLocke
 
   return (
     <button
-      className={`${isLocked ? getColorByGroup() : isSelected ? "bg-slate-400" : "bg-slate-100"} font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center`}
+      className={`${isLocked ? getColorByGroup() : isSelected ? "bg-stone-600 text-stone-50" : "bg-stone-100"} font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center transition ease-in-out`}
       id={group}
       onClick={handleClick}>
       {word}

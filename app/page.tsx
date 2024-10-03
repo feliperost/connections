@@ -106,10 +106,16 @@ export default function Home() {
     }
   };
 
+  const showHelp = () => {
+    console.log('show help')
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-start p-15">
+
       <div className="mt-20">
-        Make groups of 4
+        <div>Make groups of 4</div>
+        <button onClick={showHelp}>?</button>
       </div>
   
       {/* initial check to see if the game can be played. if there are 0 mistakes remaining, GAME OVER case below. */}
@@ -170,21 +176,21 @@ export default function Home() {
   
           <div className="mt-5">
             <button
-              className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
+              className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-stone-300 hover:bg-stone-600 active:bg-stone-400"
               onClick={handleShuffle}
               disabled={mistakesRemaining <= 0}>
               Shuffle
             </button>
   
             <button
-              className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
+              className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-stone-300 hover:bg-stone-600 active:bg-stone-400"
               onClick={deselectAll}
               disabled={mistakesRemaining <= 0}>
               Deselect all
             </button>
   
             <button
-              className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-slate-400 hover:bg-slate-600 active:bg-slate-400"
+              className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-stone-300 hover:bg-stone-600 active:bg-stone-400"
               onClick={handleSubmit}
               disabled={mistakesRemaining <= 0}>
               Submit

@@ -60,3 +60,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 
+## todo: 
+- "jump" effect on selected words when you click submit
+- "shaking" effect on submitted words when the guess is wrong
+- on a wrong guess, when the user submits 3 words of the same group, a little message saying "one away..." should appear
+- display of (?) button teaching how to play (popup / modal)
+
