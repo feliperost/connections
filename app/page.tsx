@@ -65,6 +65,7 @@ export default function Home() {
       } else {
         // if they aren't all from same group, decrease mistakes remaining by 1
         setMistakesRemaining(prev => prev - 1);
+        handleWrongGuess();
       }
     }
     console.log('selected words:', selectedWords);
@@ -110,6 +111,15 @@ export default function Home() {
     console.log('show help')
   }
 
+  const [isShaking, setIsShaking] = useState(false);
+
+  const handleWrongGuess = () => {
+    setIsShaking(true);
+    setTimeout(() => {
+      setIsShaking(false);
+    }, 1000);
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-start p-15">
 
@@ -153,7 +163,7 @@ export default function Home() {
               {shuffledWords
                 .filter(wordItem => !lockedWords.flat().some(lockedWord => lockedWord.word === wordItem.word))
                 .map((wordItem, index) => (
-                  <li key={index}>
+                  <li key={index} className={isShaking ? 'shake' : ''}>
                     <WordBox
                       word={wordItem.word}
                       group={wordItem.group}

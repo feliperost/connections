@@ -10,7 +10,7 @@ This is a study project trying to recreate the NY Times game "Connections". Play
 
 ## Breaking down the development thought process
 - We need to be able to display words coming through a list in a 4x4 grid.
-- Each word belongs to a group, and there are 4 groups total (each word is a word&group pair).
+- Each word belongs to a group, and there are 4 groups total (each word is a word&group pair - examples: apple-fruits, cat-animals).
 - The user must be able to select and de-select words.
 - We need to limit to a maxixum of 4 selected words.
 - We need to create a button that shuffles and scrambles again the displayed words (rearranging the words may help the player).
