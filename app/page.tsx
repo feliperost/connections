@@ -1,5 +1,6 @@
 "use client"; 
 import WordBox from "./components/WordBox";
+import HelpModal from "./components/HelpModal";
 import useLogic from "./components/useLogic";
 import { useState, useEffect } from "react";
 
@@ -107,9 +108,16 @@ export default function Home() {
     }
   };
 
+  const [isHelpVisible, setIsHelpVisible] = useState(false); // state that controls modal visibility
+
   const showHelp = () => {
     console.log('show help')
+    setIsHelpVisible(true);
   }
+
+  const closeHelp = () => {
+    setIsHelpVisible(false);
+  };
 
   const [isShaking, setIsShaking] = useState(false);
 
@@ -125,7 +133,8 @@ export default function Home() {
 
       <div className="mt-20">
         <div>Make groups of 4</div>
-        <button onClick={showHelp}>?</button>
+        <button onClick={showHelp} className="bg-blue-500 text-white p-2 rounded-lg">?</button>
+        {isHelpVisible && <HelpModal closeHelp={closeHelp} />}
       </div>
   
       {/* initial check to see if the game can be played. if there are 0 mistakes remaining, GAME OVER case below. */}
