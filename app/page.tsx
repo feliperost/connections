@@ -214,23 +214,23 @@ export default function Home() {
   
           <div className="mt-5">
             <button
-              className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-stone-300 hover:bg-stone-600 active:bg-stone-400"
+              className="mx-2 transition ease-in-out font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-stone-300 hover:bg-stone-600 active:bg-stone-400 disabled:bg-stone-200 disabled:text-slate-500 disabled:opacity-50 disabled:cursor-auto"
               onClick={handleShuffle}
               disabled={mistakesRemaining <= 0}>
               Shuffle
             </button>
   
             <button
-              className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-stone-300 hover:bg-stone-600 active:bg-stone-400"
+              className="mx-2 transition ease-in-out font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-stone-300 hover:bg-stone-600 active:bg-stone-400 disabled:bg-stone-200 disabled:text-slate-500 disabled:opacity-50 disabled:cursor-auto"
               onClick={deselectAll}
-              disabled={mistakesRemaining <= 0}>
+              disabled={selectedWords.length < 1 || mistakesRemaining <= 0}>
               Deselect all
             </button>
   
             <button
-              className="font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-stone-300 hover:bg-stone-600 active:bg-stone-400"
+              className="mx-2 transition ease-in-out font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-stone-300 hover:bg-stone-600 active:bg-stone-400 disabled:bg-stone-200 disabled:text-slate-500 disabled:opacity-50 disabled:cursor-auto"
               onClick={handleSubmit}
-              disabled={mistakesRemaining <= 0}>
+              disabled={selectedWords.length !== 4 || mistakesRemaining <= 0}> 
               Submit
             </button>
           </div>
