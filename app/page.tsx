@@ -59,18 +59,31 @@ export default function Home() {
     if (selectedWords.length === 4) {
       const allSameGroup = selectedWords.every(word => word.group === selectedWords[0].group);
       
-      // if all 4 selected words are from the same group, sends them to locked words and resets selected words \/
-      if (allSameGroup) {
-        setLockedWords(prevLocked => [...prevLocked, selectedWords]);
-        setSelectedWords([]);
-      } else {
-        // if they aren't all from same group, decrease mistakes remaining by 1
-        setMistakesRemaining(prev => prev - 1);
-        handleWrongGuess();
-      }
+      // selector to apply 'jump' effect on selected words
+      const wordElements = document.querySelectorAll('.selected-word');
+      wordElements.forEach((wordElement) => {
+        wordElement.classList.add('jump');
+      });
+  
+      // applies and removes 'jump' class after effect is done
+      setTimeout(() => {
+        wordElements.forEach((wordElement) => {
+          wordElement.classList.remove('jump');
+        });
+  
+        // checks for correct or wrong guess
+        if (allSameGroup) {
+          setLockedWords(prevLocked => [...prevLocked, selectedWords]);
+          setSelectedWords([]);
+        } else {
+          setMistakesRemaining(prev => prev - 1);
+          handleWrongGuess();
+        }
+      }, 500); // jump effect time in ms
     }
     console.log('selected words:', selectedWords);
   };
+  
 
   // clears all selected words (resets the selectedWords array)
   const deselectAll = () => {
@@ -171,17 +184,23 @@ export default function Home() {
             <ul className="grid grid-cols-4 gap-4">
               {shuffledWords
                 .filter(wordItem => !lockedWords.flat().some(lockedWord => lockedWord.word === wordItem.word))
-                .map((wordItem, index) => (
-                  <li key={index} className={isShaking ? 'shake' : ''}>
-                    <WordBox
-                      word={wordItem.word}
-                      group={wordItem.group}
-                      selectedWords={selectedWords} // current state
-                      toggleWordSelection={toggleWordSelection} // toggling function
-                    />
-                  </li>
-                ))}
+                .map((wordItem, index) => {
+                  const isSelected = selectedWords.some(selectedWord => selectedWord.word === wordItem.word); // used to check for selected words
+                  const shouldShake = isShaking && isSelected; // used to check and apply shake effect only if word is selected and isShaking is true
+                  
+                  return (
+                    <li key={index} className={`${isSelected ? 'selected-word' : ''} ${shouldShake ? 'shake' : ''}`}>
+                      <WordBox
+                        word={wordItem.word}
+                        group={wordItem.group}
+                        selectedWords={selectedWords} // current state
+                        toggleWordSelection={toggleWordSelection} // toggling function
+                      />
+                    </li>
+                  );
+                })}
             </ul>
+
           </div>
   
           {/* display of mistakes, reaches game over if mistakesRemaining is 0. 
