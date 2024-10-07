@@ -1,5 +1,5 @@
 ## Connections
-This is a study project trying to recreate the NY Times game "Connections". Play the original: https://www.nytimes.com/games/connections
+This is a study project trying to recreate the NY Times game "Connections". [Play the original.](https://www.nytimes.com/games/connections)
 
 ## How to play
 - There are 16 words displayed and scrambled. The challenge is to figure out the connecting theme between a group of words.
@@ -61,8 +61,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 ## todo: 
-- "jump" effect on selected words when you click submit
-- "shaking" effect on submitted words when the guess is wrong
-- on a wrong guess, when the user submits 3 words of the same group, a little message saying "one away..." should appear
-- display of (?) button teaching how to play (popup / modal)
+- "jump" effect on selected words when you click submit. the effect should appear one word at a time.
+- on a wrong guess, when the user submits 3 words of the same group, a little message saying "one away..." should appear.
+- "how to play" button with a popup/modal containing the game rules.
+- fix general element position and styles
 
