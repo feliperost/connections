@@ -4,10 +4,10 @@ interface HelpModalProps {
   closeHelp: () => void;
 }
 
-const HelpModal: React.FC<HelpModalProps> = ({ closeHelp }) => {
+const HelpModal = ({ closeHelp }: HelpModalProps)  => {
 
     const handleClickOutside = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        // Verifica se o clique foi na área fora do modal
+        // checks for outside click to close modal
         if (event.target === event.currentTarget) {
           closeHelp();
         }
