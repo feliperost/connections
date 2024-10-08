@@ -59,10 +59,10 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 
-
 ## todo: 
 - "jump" effect on selected words when you click submit. the effect should appear one word at a time.
 - on a wrong guess, when the user submits 3 words of the same group, a little message saying "one away..." should appear.
-- "how to play" button with a popup/modal containing the game rules.
-- fix general element position and styles
+- create a summary of the game when the game ends. (4 squares representing the words, colored by their corresponding group.)
+- fix general element position and styles, work on responsive design.
+- figure out a way to hide the group from the html element. (right now, if you inspect the page, you can find the answers)
 

@@ -124,7 +124,6 @@ export default function Home() {
   const [isHelpVisible, setIsHelpVisible] = useState(false); // state that controls modal visibility
 
   const showHelp = () => {
-    console.log('show help')
     setIsHelpVisible(true);
   }
 
@@ -146,14 +145,17 @@ export default function Home() {
 
       <div className="mt-20">
         <div>Make groups of 4</div>
-        <button onClick={showHelp} className="bg-blue-500 text-white p-2 rounded-lg">?</button>
-        {isHelpVisible && <HelpModal closeHelp={closeHelp} />}
+        <div className="relative mb-5">
+          <button onClick={showHelp} className="absolute top-0 right-0 bg-blue-500 text-white p-2 rounded-lg">?</button>
+          {isHelpVisible && <HelpModal closeHelp={closeHelp} />}
+        </div>
       </div>
   
       {/* initial check to see if the game can be played. if there are 0 mistakes remaining, GAME OVER case below. */}
       {mistakesRemaining > 0 ? (
         <>
           <div className="mt-8">
+            
             {/* a version of the WordBox component that only shows locked words&groups, and displays the group above of row of locked words */}
             {lockedWords.map((groupWords, index) => (
               <div key={index} className={`fade-in p-2 ${getColorByGroup(groupWords[0].group)}`}>
@@ -205,30 +207,30 @@ export default function Home() {
   
           {/* display of mistakes, reaches game over if mistakesRemaining is 0. 
           .repeat repeats "•" according to number of mistakes remaining. */}
-          <div className="mt-8">
+          <div className="my-6">
             Mistakes remaining:
             <span className="ml-2 text-4xl">
               {"• ".repeat(mistakesRemaining)}
             </span>
           </div>
   
-          <div className="mt-5">
+          <div className="my-5">
             <button
-              className="mx-2 transition ease-in-out font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-stone-300 hover:bg-stone-600 active:bg-stone-400 disabled:bg-stone-200 disabled:text-slate-500 disabled:opacity-50 disabled:cursor-auto"
+              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-2 border-black p-2 text-center content-center bg-none active:bg-stone-200 disabled:opacity-30"
               onClick={handleShuffle}
               disabled={mistakesRemaining <= 0}>
               Shuffle
             </button>
   
             <button
-              className="mx-2 transition ease-in-out font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-stone-300 hover:bg-stone-600 active:bg-stone-400 disabled:bg-stone-200 disabled:text-slate-500 disabled:opacity-50 disabled:cursor-auto"
+              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-2 border-black p-2 text-center content-center bg-none active:bg-stone-200 disabled:opacity-30"
               onClick={deselectAll}
               disabled={selectedWords.length < 1 || mistakesRemaining <= 0}>
               Deselect all
             </button>
   
             <button
-              className="mx-2 transition ease-in-out font-sans font-bold uppercase w-[150px] h-[80px] rounded-md border-solid border-2 p-2 text-center content-center bg-stone-300 hover:bg-stone-600 active:bg-stone-400 disabled:bg-stone-200 disabled:text-slate-500 disabled:opacity-50 disabled:cursor-auto"
+              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-2 border-black p-2 text-center text-white content-center bg-black hover:bg-stone-600 active:bg-stone-400 disabled:bg-zinc-50 disabled:opacity-30 disabled:border-black disabled:cursor-auto disabled:text-black"
               onClick={handleSubmit}
               disabled={selectedWords.length !== 4 || mistakesRemaining <= 0}> 
               Submit
