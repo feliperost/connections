@@ -216,21 +216,21 @@ export default function Home() {
   
           <div className="my-5">
             <button
-              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-2 border-black p-2 text-center content-center bg-none active:bg-stone-200 disabled:opacity-30"
+              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-2 border-black p-2 text-center content-center bg-none disabled:opacity-30"
               onClick={handleShuffle}
               disabled={mistakesRemaining <= 0}>
               Shuffle
             </button>
   
             <button
-              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-2 border-black p-2 text-center content-center bg-none active:bg-stone-200 disabled:opacity-30"
+              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-2 border-black p-2 text-center content-center bg-none disabled:opacity-30"
               onClick={deselectAll}
               disabled={selectedWords.length < 1 || mistakesRemaining <= 0}>
               Deselect all
             </button>
   
             <button
-              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-2 border-black p-2 text-center text-white content-center bg-black hover:bg-stone-600 active:bg-stone-400 disabled:bg-zinc-50 disabled:opacity-30 disabled:border-black disabled:cursor-auto disabled:text-black"
+              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-2 border-black p-2 text-center text-white content-center bg-black disabled:bg-zinc-50 disabled:opacity-30 disabled:border-black disabled:cursor-auto disabled:text-black"
               onClick={handleSubmit}
               disabled={selectedWords.length !== 4 || mistakesRemaining <= 0}> 
               Submit
