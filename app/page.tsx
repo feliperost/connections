@@ -77,7 +77,7 @@ export default function Home() {
           setSelectedWords([]);
         } else {
           setMistakesRemaining(prev => prev - 1);
-          handleWrongGuess();
+          wrongGuessEffect();
         }
       }, 500); // jump effect time in ms
     }
@@ -133,15 +133,16 @@ export default function Home() {
 
   const [isShaking, setIsShaking] = useState(false);
 
-  const handleWrongGuess = () => {
+  const wrongGuessEffect = () => {
     setIsShaking(true);
     setTimeout(() => {
       setIsShaking(false);
     }, 1000);
   };
 
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-start p-15">
+    <main className="flex min-h-screen flex-col items-center p-15">
 
       <div className="mt-20">
         <div>Make groups of 4</div>
@@ -157,11 +158,11 @@ export default function Home() {
           <div className="mt-8">
             {/* render of correct guesses */}
             {lockedWords.map((groupWords, index) => (
-              <div key={index} className={`rounded-md mt-2 h-[80px] w-[620px] fade-in p-2 ${getColorByGroup(groupWords[0].group)}`}>
-                <div className="text-center font-bold uppercase mt-2">
+              <div key={index} className={`rounded-md text-center mt-2 h-[80px] w-[624px] text-lg transition p-2 ${getColorByGroup(groupWords[0].group)}`}>
+                <div className=" font-bold uppercase mt-1">
                   {groupWords[0].group}
                 </div>
-                <div className="flex justify-center text-center font-sans uppercase">
+                <div className="flex justify-center font-sans uppercase">
                   <p>{groupWords[0].word + ', '}</p>
                   <p>{groupWords[1].word + ', '}</p>
                   <p>{groupWords[2].word + ', '}</p>
@@ -207,21 +208,21 @@ export default function Home() {
   
           <div className="my-5">
             <button
-              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-2 border-black p-2 text-center content-center bg-none disabled:opacity-30"
+              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-[1px] border-black p-2 text-center content-center bg-none disabled:opacity-30"
               onClick={handleShuffle}
               disabled={mistakesRemaining <= 0}>
               Shuffle
             </button>
   
             <button
-              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-2 border-black p-2 text-center content-center bg-none disabled:opacity-30"
+              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-[1px] border-black p-2 text-center content-center bg-none disabled:opacity-30"
               onClick={deselectAll}
               disabled={selectedWords.length < 1 || mistakesRemaining <= 0}>
               Deselect all
             </button>
   
             <button
-              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-2 border-black p-2 text-center text-white content-center bg-black disabled:bg-zinc-50 disabled:opacity-30 disabled:border-black disabled:cursor-auto disabled:text-black"
+              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-[1px] border-black p-2 text-center text-white content-center bg-black disabled:bg-zinc-50 disabled:opacity-30 disabled:border-black disabled:cursor-auto disabled:text-black"
               onClick={handleSubmit}
               disabled={selectedWords.length !== 4 || mistakesRemaining <= 0}> 
               Submit
@@ -230,30 +231,26 @@ export default function Home() {
         </>
       ) : (
         // GAME OVER: words are organized and displayed by group 
-        <div className="fade-in mt-8">
-          {/* organizing words by group */}
-          {organizeWordsByGroup(shuffledWords).map(([group, words], index) => (
-            <div key={index} className={`p-2 ${getColorByGroup(group)}`}>
-              {/* renders group name */}
-              <div className="text-center font-bold uppercase mb-2">
-                {group}
+        <div>
+          <div className="fade-in mt-8">
+            {/* organizing words by group */}
+            {organizeWordsByGroup(shuffledWords).map(([group, words], index) => (
+              <div key={index} className={`rounded-md text-center mt-2 h-[80px] w-[624px] text-lg transition p-2 ${getColorByGroup(group)}`}>
+                {/* renders group name */}
+                <div className="font-bold uppercase mt-1">
+                  {group}
+                </div>
+                {/* renders the words in the group */}
+                <ul className="flex justify-center font-sans uppercase">
+                  {words.map((word, index) => (
+                    <li key={index}>{word.word}, </li>
+                  ))}
+                </ul>
               </div>
-              {/* renders the words in the group */}
-              <ul className="grid grid-cols-4 gap-2">
-                {words.map((wordItem, index) => (
-                  <li key={index}>
-                    <WordBox 
-                      word={wordItem.word} 
-                      group={wordItem.group} 
-                      isLocked={true} // mark as locked (used to style the button)
-                    />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
-    </main>
+    </main> 
   );
 }

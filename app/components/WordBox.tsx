@@ -9,10 +9,9 @@ export type WordProps = {
   toggleWordSelection?: (word: string, group: string, isSelected: boolean) => void; // function from parent
   isLocked?: boolean; // prop to handle locked words state
   // some of these are optional (?) because we may not use them on the locked words on page.tsx
-  className?: string;
 };
 
-const WordBox = ({ word, group, selectedWords = [], toggleWordSelection, isLocked = false, className = "" }: WordProps) => {
+const WordBox = ({ word, group, selectedWords = [], toggleWordSelection, isLocked = false }: WordProps) => {
 
   // const to check if the word is selected
   const isSelected = selectedWords.some(selected => selected.word === word); 
@@ -32,7 +31,7 @@ const WordBox = ({ word, group, selectedWords = [], toggleWordSelection, isLocke
 
   return (
     <button
-      className={`${isLocked ? getColorByGroup() : isSelected ? "bg-stone-600 text-stone-50" : "bg-stone-200"} text-balance text-lg leading-tight text-center content-center font-sans font-bold uppercase w-[150px] h-[80px] rounded-md p-2 transition ease-in-out ${className} `}
+      className={`${isLocked ? getColorByGroup() : isSelected ? "bg-stone-600 text-stone-50" : "bg-stone-200"} text-balance text-lg leading-tight text-center content-center font-sans font-bold uppercase w-[150px] h-[80px] rounded-md p-2 transition ease-in-out`}
       id={group}
       onClick={handleClick}>
       {word}
