@@ -243,7 +243,10 @@ export default function Home() {
                 {/* renders the words in the group */}
                 <ul className="flex justify-center font-sans uppercase">
                   {words.map((word, index) => (
-                    <li key={index}>{word.word}, </li>
+                    <li key={index}>
+                    {word.word}
+                    {index < words.length - 1 && ", "}
+                    </li>
                   ))}
                 </ul>
               </div>
