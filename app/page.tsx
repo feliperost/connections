@@ -151,39 +151,30 @@ export default function Home() {
         </div>
       </div>
   
-      {/* initial check to see if the game can be played. if there are 0 mistakes remaining, GAME OVER case below. */}
+      {/* initial check to see if the game can be played. if there are 0 mistakes remaining, GAME OVER case down below. */}
       {mistakesRemaining > 0 ? (
         <>
           <div className="mt-8">
-            
-            {/* a version of the WordBox component that only shows locked words&groups, and displays the group above of row of locked words */}
+            {/* render of correct guesses */}
             {lockedWords.map((groupWords, index) => (
-              <div key={index} className={`fade-in p-2 ${getColorByGroup(groupWords[0].group)}`}>
-                {/* renders group name here */}
-                <div className="text-center font-bold uppercase mb-2">
+              <div key={index} className={`rounded-md mt-2 h-[80px] w-[620px] fade-in p-2 ${getColorByGroup(groupWords[0].group)}`}>
+                <div className="text-center font-bold uppercase mt-2">
                   {groupWords[0].group}
                 </div>
-                {/* renders the locked words */}
-                <ul className="grid grid-cols-4 gap-4">
-                  {groupWords.map((wordItem, index) => (
-                    <li key={index}>
-                      <WordBox 
-                        word={wordItem.word} 
-                        group={wordItem.group} 
-                        isLocked={true} // mark as locked (used to style the button)
-                        // we are not passing selectedWords and toggleWordSelection as they are optional, so locked words can't be selected and changed
-                      />
-                    </li>
-                  ))}
-                </ul>
+                <div className="flex justify-center text-center font-sans uppercase">
+                  <p>{groupWords[0].word + ', '}</p>
+                  <p>{groupWords[1].word + ', '}</p>
+                  <p>{groupWords[2].word + ', '}</p>
+                  <p>{groupWords[3].word}</p>
+                </div>
               </div>
             ))}
           </div>
   
-          <div className="mt-8">
-            {/* here it displays the remaining words, filtering first the locked ones above */}
+          <div className="mt-2">
+            {/* here it displays the remaining words, filtering first the locked ones from correct guesses above */}
             {/* flat() is used so we can iterate through the array */}
-            <ul className="grid grid-cols-4 gap-4">
+            <ul className="grid grid-cols-4 gap-2">
               {shuffledWords
                 .filter(wordItem => !lockedWords.flat().some(lockedWord => lockedWord.word === wordItem.word))
                 .map((wordItem, index) => {
@@ -207,9 +198,9 @@ export default function Home() {
   
           {/* display of mistakes, reaches game over if mistakesRemaining is 0. 
           .repeat repeats "•" according to number of mistakes remaining. */}
-          <div className="my-6">
-            Mistakes remaining:
-            <span className="ml-2 text-4xl">
+          <div className="flex items-center justify-start w-100 my-6">
+            <p>Mistakes remaining:</p>
+            <span className="ml-2 text-5xl">
               {"• ".repeat(mistakesRemaining)}
             </span>
           </div>
@@ -248,7 +239,7 @@ export default function Home() {
                 {group}
               </div>
               {/* renders the words in the group */}
-              <ul className="grid grid-cols-4 gap-4">
+              <ul className="grid grid-cols-4 gap-2">
                 {words.map((wordItem, index) => (
                   <li key={index}>
                     <WordBox 
