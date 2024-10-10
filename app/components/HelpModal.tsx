@@ -13,7 +13,7 @@ const HelpModal = ({ closeHelp }: HelpModalProps)  => {
         }
       };
 
-    return (
+  return (
     <div className="transition-opacity duration-300">
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" onClick={handleClickOutside}>
             <div className="bg-white p-8 rounded shadow-lg max-w-lg w-full relative">

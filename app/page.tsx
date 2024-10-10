@@ -121,9 +121,9 @@ export default function Home() {
     }
   };
 
-  const [isHelpVisible, setIsHelpVisible] = useState(false); // state that controls modal visibility
+  const [isHelpVisible, setIsHelpVisible] = useState(false); // state that controls help modal visibility
 
-  const showHelp = () => {
+  const openHelp = () => {
     setIsHelpVisible(true);
   }
 
@@ -144,10 +144,10 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-15">
 
-      <div className="mt-20">
-        <div>Make groups of 4</div>
+      <div className="w-[624px] mt-20">
+        <div className="text-center">Make groups of 4</div>
         <div className="relative mb-5">
-          <button onClick={showHelp} className="absolute top-0 right-0 bg-blue-500 text-white p-2 rounded-lg">?</button>
+          <button onClick={openHelp} className="absolute top-0 right-0 bg-blue-500 text-white p-2 rounded-lg">?</button>
           {isHelpVisible && <HelpModal closeHelp={closeHelp} />}
         </div>
       </div>
@@ -199,30 +199,30 @@ export default function Home() {
   
           {/* display of mistakes, reaches game over if mistakesRemaining is 0. 
           .repeat repeats "•" according to number of mistakes remaining. */}
-          <div className="flex items-center justify-start w-100 my-6">
+          <div className="flex items-center justify-start w-100 my-4">
             <p>Mistakes remaining:</p>
             <span className="ml-2 text-5xl">
               {"• ".repeat(mistakesRemaining)}
             </span>
           </div>
   
-          <div className="my-5">
+          <div className="">
             <button
-              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-[1px] border-black p-2 text-center content-center bg-none disabled:opacity-30"
+              className="mx-2 transition ease-in-out font-sans font-semibold w-[120px] h-[50px] rounded-full border-solid border-[1px] border-black p-2 text-center content-center bg-none disabled:opacity-30"
               onClick={handleShuffle}
               disabled={mistakesRemaining <= 0}>
               Shuffle
             </button>
   
             <button
-              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-[1px] border-black p-2 text-center content-center bg-none disabled:opacity-30"
+              className="mx-2 transition ease-in-out font-sans font-semibold w-[120px] h-[50px] rounded-full border-solid border-[1px] border-black p-2 text-center content-center bg-none disabled:opacity-30"
               onClick={deselectAll}
               disabled={selectedWords.length < 1 || mistakesRemaining <= 0}>
               Deselect all
             </button>
   
             <button
-              className="mx-2 transition ease-in-out font-sans font-semibold w-[130px] h-[50px] rounded-full border-solid border-[1px] border-black p-2 text-center text-white content-center bg-black disabled:bg-zinc-50 disabled:opacity-30 disabled:border-black disabled:cursor-auto disabled:text-black"
+              className="mx-2 transition ease-in-out font-sans font-semibold w-[120px] h-[50px] rounded-full border-solid border-[1px] border-black p-2 text-center text-white content-center bg-black disabled:bg-zinc-50 disabled:opacity-30 disabled:border-black disabled:cursor-auto disabled:text-black"
               onClick={handleSubmit}
               disabled={selectedWords.length !== 4 || mistakesRemaining <= 0}> 
               Submit
