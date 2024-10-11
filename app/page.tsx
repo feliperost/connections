@@ -54,16 +54,24 @@ export default function Home() {
     }
   };
       
-  // handle submit, first it checks for 4 selected words of the same group
+  // state to control the submit button
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+
+  // function for the submit button
+  // first it checks for 4 selected words of the same group
   const handleSubmit = () => {
     if (selectedWords.length === 4) {
-      const allSameGroup = selectedWords.every(word => word.group === selectedWords[0].group);
-      
+      // disable submit button immediately after clicking
+      setIsSubmitDisabled(true);
+  
       // selector to apply 'jump' effect on selected words
       const wordElements = document.querySelectorAll('.selected-word');
       wordElements.forEach((wordElement) => {
         wordElement.classList.add('jump');
       });
+
+      // if you guess is all from the same group, its added to this variable
+      const allSameGroup = selectedWords.every(word => word.group === selectedWords[0].group);
   
       // applies and removes 'jump' class after effect is done
       setTimeout(() => {
@@ -71,18 +79,27 @@ export default function Home() {
           wordElement.classList.remove('jump');
         });
   
-        // checks for correct or wrong guess
+        // here it checks for a correct or wrong guess based on the variable created above
         if (allSameGroup) {
           setLockedWords(prevLocked => [...prevLocked, selectedWords]);
-          setSelectedWords([]);
+          setSelectedWords([]); // clear selected words
+  
+          // re-enables submit button
+          setIsSubmitDisabled(false);
+  
         } else {
+          // if the guess is wrong, removes 1 'life' and applies the shake effect
           setMistakesRemaining(prev => prev - 1);
           wrongGuessEffect();
+  
+          // re-enables submit button
+          setIsSubmitDisabled(false);
         }
       }, 500); // jump effect time in ms
     }
     console.log('selected words:', selectedWords);
   };
+  
   
 
   // clears all selected words (resets the selectedWords array)
@@ -224,7 +241,7 @@ export default function Home() {
             <button
               className="mx-2 transition ease-in-out font-sans font-semibold w-[120px] h-[50px] rounded-full border-solid border-[1px] border-black p-2 text-center text-white content-center bg-black disabled:bg-zinc-50 disabled:opacity-30 disabled:border-black disabled:cursor-auto disabled:text-black"
               onClick={handleSubmit}
-              disabled={selectedWords.length !== 4 || mistakesRemaining <= 0}> 
+              disabled={selectedWords.length !== 4 || mistakesRemaining <= 0 || isSubmitDisabled}> 
               Submit
             </button>
           </div>
