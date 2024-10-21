@@ -83,28 +83,21 @@ export default function Home() {
         if (allSameGroup) {
           setLockedWords(prevLocked => [...prevLocked, selectedWords]);
           setSelectedWords([]); // clear selected words
-  
-          // re-enables submit button after a delay of 2000ms
-          setTimeout(() => {
-            setIsSubmitDisabled(false);
-          }, 2000);
-  
+
         } else {
           // if the guess is wrong, removes 1 'life' and applies the shake effect
           setMistakesRemaining(prev => prev - 1);
           wrongGuessEffect();
   
-          // re-enables submit button after a delay of 2000ms
+          // re-enables submit button after a delay
           setTimeout(() => {
             setIsSubmitDisabled(false);
-          }, 2000);
+          }, 1200);
         }
       }, 500); // jump effect time in ms
     }
     console.log('selected words:', selectedWords);
   };
-  
-  
 
   // clears all selected words (resets the selectedWords array)
   const deselectAll = () => {
