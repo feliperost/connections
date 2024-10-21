@@ -8,19 +8,15 @@ export type WordProps = {
    // locked (static colored effect) state
   toggleWordSelection?: (word: string, group: string, isSelected: boolean) => void; // function from parent
   isLocked?: boolean; // prop to handle locked words state
-  // some of these are optional (?) because we may not use them on the locked words on page.tsx
+  // some of these are optional (?) because we may not use them on page.tsx
 };
 
 const WordBox = ({ word, group, selectedWords = [], toggleWordSelection, isLocked = false }: WordProps) => {
 
-  // const to check if the word is selected
+  // variable to check if the word is selected
   const isSelected = selectedWords.some(selected => selected.word === word); 
 
   const handleClick = () => {
-    // prevents interaction with locked words, returns nothing
-    if (isLocked) {
-      return;
-    }
     // prevents selecting more than 4 words, returns nothing
     if (!isSelected && selectedWords.length >= 4) {
       return;

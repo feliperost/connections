@@ -84,16 +84,20 @@ export default function Home() {
           setLockedWords(prevLocked => [...prevLocked, selectedWords]);
           setSelectedWords([]); // clear selected words
   
-          // re-enables submit button
-          setIsSubmitDisabled(false);
+          // re-enables submit button after a delay of 2000ms
+          setTimeout(() => {
+            setIsSubmitDisabled(false);
+          }, 2000);
   
         } else {
           // if the guess is wrong, removes 1 'life' and applies the shake effect
           setMistakesRemaining(prev => prev - 1);
           wrongGuessEffect();
   
-          // re-enables submit button
-          setIsSubmitDisabled(false);
+          // re-enables submit button after a delay of 2000ms
+          setTimeout(() => {
+            setIsSubmitDisabled(false);
+          }, 2000);
         }
       }, 500); // jump effect time in ms
     }
