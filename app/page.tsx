@@ -84,6 +84,11 @@ export default function Home() {
           setLockedWords(prevLocked => [...prevLocked, selectedWords]);
           setSelectedWords([]); // clear selected words
 
+          // re-enables submit button after a delay
+          setTimeout(() => {
+            setIsSubmitDisabled(false);
+          }, 800);
+
         } else {
           // if the guess is wrong, removes 1 'life' and applies the shake effect
           setMistakesRemaining(prev => prev - 1);
