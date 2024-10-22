@@ -64,31 +64,35 @@ export default function Home() {
       // disable submit button immediately after clicking
       setIsSubmitDisabled(true);
   
-      // selector to apply 'jump' effect on selected words
-      const wordElements = document.querySelectorAll('.selected-word');
-      wordElements.forEach((wordElement) => {
-        wordElement.classList.add('jump');
-      });
-
-      // if you guess is all from the same group, its added to this variable
+      // if you guess is all from the same group, it's added to this variable
       const allSameGroup = selectedWords.every(word => word.group === selectedWords[0].group);
   
-      // applies and removes 'jump' class after effect is done
-      setTimeout(() => {
-        wordElements.forEach((wordElement) => {
-          wordElement.classList.remove('jump');
-        });
+      // selector to apply 'jump' effect on selected words
+      const wordElements = document.querySelectorAll('.selected-word');
   
+      // applies 'jump' effect one word at a time with a delay between them
+      wordElements.forEach((wordElement, index) => {
+        setTimeout(() => {
+          wordElement.classList.add('jump');
+  
+          // removes 'jump' class after effect duration (300ms here)
+          setTimeout(() => {
+            wordElement.classList.remove('jump');
+          }, 400);
+        }, index * 80); // delay increases for each word
+      });
+   
+      setTimeout(() => {
         // here it checks for a correct or wrong guess based on the variable created above
         if (allSameGroup) {
           setLockedWords(prevLocked => [...prevLocked, selectedWords]);
           setSelectedWords([]); // clear selected words
-
+  
           // re-enables submit button after a delay
           setTimeout(() => {
             setIsSubmitDisabled(false);
           }, 800);
-
+  
         } else {
           // if the guess is wrong, removes 1 'life' and applies the shake effect
           setMistakesRemaining(prev => prev - 1);
@@ -99,10 +103,11 @@ export default function Home() {
             setIsSubmitDisabled(false);
           }, 1200);
         }
-      }, 500); // jump effect time in ms
+      }, 800); // waits for all jump effects to finish before checking the guess
     }
     console.log('selected words:', selectedWords);
   };
+  
 
   // clears all selected words (resets the selectedWords array)
   const deselectAll = () => {

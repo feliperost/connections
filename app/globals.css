@@ -48,7 +48,7 @@ body {
 }
 
 .shake {
-  animation: shake .8s ease-in-out;
+  animation: shake .5s ease-in-out;
 }
 
 @keyframes jump {
