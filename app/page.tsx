@@ -178,7 +178,7 @@ export default function Home() {
         <div className="mt-5">Make groups of 4!</div>
 
         <div className="self-end relative mb-5">
-          <button onClick={openHelp} className="absolute top-0 right-0 bg-blue-500 text-white p-2 rounded-full hover:bg-blue-400 transition">?</button>
+          <button onClick={openHelp} className="absolute top-0 right-0 p-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">?</button>
           {isHelpVisible && <HelpModal closeHelp={closeHelp} />}
         </div>
       </div>
@@ -230,10 +230,18 @@ export default function Home() {
   
           {/* display of mistakes, reaches game over if mistakesRemaining is 0. 
           .repeat repeats "•" according to number of mistakes remaining. */}
-          <div className="flex items-center justify-start w-100 my-4">
+          <div className="flex items-center justify-center w-full my-4">
             <p>Mistakes remaining:</p>
-            <span className="ml-2 text-5xl">
-              {"• ".repeat(mistakesRemaining)}
+            <span className="ml-2 text-5xl w-[105px] flex justify-start">
+              {/* creates a array of 4 elements (our player tries) and assign and index to them, using "_" to ignore the first argument of the function as we will only use their index. later, it applies opacity 100 when mistakesRemaining is bigger than the index, and applies opacity 0 when mistakesRemaining is smaller than the index (meaning a mistake has been made)*/}
+              {Array.from({ length: 4 }, (_, index) => (
+                <span
+                  key={index}
+                  className={`transition-opacity duration-450 ${
+                    index < mistakesRemaining ? 'opacity-100' : 'opacity-0'
+                  }`}>•
+                </span>
+              ))}
             </span>
           </div>
   
