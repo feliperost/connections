@@ -168,10 +168,17 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-15">
 
-      <div className="w-[624px] mt-20">
-        <div className="text-center">Make groups of 4</div>
-        <div className="relative mb-5">
-          <button onClick={openHelp} className="absolute top-0 right-0 bg-blue-500 text-white p-2 rounded-lg">?</button>
+      <div className="flex flex-col items-center w-[624px] mt-20">
+        <div>
+          <p className="">This is a study project trying to recreate the NY Times game <a className="text-blue-600 font-semibold hover:underline hover:text-blue-400" href="https://www.nytimes.com/games/connections" target="_blank">Connections</a>.</p>
+        </div>
+
+        <p>The code for the project can be accessed <a className="text-blue-600 font-semibold hover:underline hover:text-blue-400" href="https://github.com/feliperost/connections" target="_blank">here</a>.</p>
+
+        <div className="mt-5">Make groups of 4!</div>
+
+        <div className="self-end relative mb-5">
+          <button onClick={openHelp} className="absolute top-0 right-0 bg-blue-500 text-white p-2 rounded-full hover:bg-blue-400 transition">?</button>
           {isHelpVisible && <HelpModal closeHelp={closeHelp} />}
         </div>
       </div>
