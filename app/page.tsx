@@ -57,49 +57,59 @@ export default function Home() {
   // state to control the submit button
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
-  // function for the submit button
+  // function for the submit button. checks if the guess is correct/wrong, and applies according effects
   // first it checks for 4 selected words of the same group
   const handleSubmit = () => {
     if (selectedWords.length === 4) {
       // disable submit button immediately after clicking
       setIsSubmitDisabled(true);
   
-      // if you guess is all from the same group, it's added to this variable
-      const allSameGroup = selectedWords.every(word => word.group === selectedWords[0].group);
-  
       // selector to apply 'jump' effect on selected words
       const wordElements = document.querySelectorAll('.selected-word');
+  
+      // disable clicks on submitted selected words by adding 'pointer-events-none' class
+      wordElements.forEach((wordElement) => {
+        wordElement.classList.add('pointer-events-none'); 
+      });
+  
+      // if your guess is all from the same group, it's added to this variable
+      const allSameGroup = selectedWords.every(word => word.group === selectedWords[0].group);
   
       // applies 'jump' effect one word at a time with a delay between them
       wordElements.forEach((wordElement, index) => {
         setTimeout(() => {
           wordElement.classList.add('jump');
-  
-          // removes 'jump' class after effect duration (300ms here)
+          // removes 'jump' class after effect duration (400ms here)
           setTimeout(() => {
             wordElement.classList.remove('jump');
           }, 400);
-        }, index * 80); // delay increases for each word
+        }, index * 80); // delay to make the effect sequential
       });
-   
+  
+      // waits for the effects to finish before checking the guess
       setTimeout(() => {
-        // here it checks for a correct or wrong guess based on the variable created above
         if (allSameGroup) {
           setLockedWords(prevLocked => [...prevLocked, selectedWords]);
           setSelectedWords([]); // clear selected words
   
-          // re-enables submit button after a delay
+          // re-enables wordboxes after a delay
           setTimeout(() => {
+            wordElements.forEach((wordElement) => {
+              wordElement.classList.remove('pointer-events-none');
+            });
             setIsSubmitDisabled(false);
-          }, 800);
+          }, 1500);
   
         } else {
-          // if the guess is wrong, removes 1 'life' and applies the shake effect
+          // if the guess is wrong, removes 1 'life' and applies the shake effect...
           setMistakesRemaining(prev => prev - 1);
           wrongGuessEffect();
   
-          // re-enables submit button after a delay
+          // and re-enables submit button and wordboxes after a delay
           setTimeout(() => {
+            wordElements.forEach((wordElement) => {
+              wordElement.classList.remove('pointer-events-none');
+            });
             setIsSubmitDisabled(false);
           }, 1200);
         }
@@ -108,7 +118,6 @@ export default function Home() {
     console.log('selected words:', selectedWords);
   };
   
-
   // clears all selected words (resets the selectedWords array)
   const deselectAll = () => {
     setSelectedWords([]); 
@@ -283,8 +292,7 @@ export default function Home() {
                 <ul className="flex justify-center font-sans uppercase">
                   {words.map((word, index) => (
                     <li key={index}>
-                    {word.word}
-                    {index < words.length - 1 && ", "}
+                    {word.word}{index < words.length - 1 && ", "}
                     </li>
                   ))}
                 </ul>
