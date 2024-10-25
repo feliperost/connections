@@ -17,7 +17,7 @@ export default function Home() {
   const [lockedWords, setLockedWords] = useState<{ word: string; group: string }[][]>([]);
 
   // state to control number of tries and mistakes the user can make
-  const [mistakesRemaining, setMistakesRemaining] = useState(4);
+  const [mistakesRemaining, setMistakesRemaining] = useState(10);
 
   // shuffle function using Fisher-Yates algorithm
   const shuffleArray = (array: { word: string; group: string }[]) => {
@@ -57,10 +57,19 @@ export default function Home() {
   // state to control the submit button
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
+  // shake effect control below
+  const [isShaking, setIsShaking] = useState(false);
+
+  const wrongGuessEffect = () => {
+    setIsShaking(true);
+    setTimeout(() => {
+      setIsShaking(false);
+    }, 1000);
+  };
+
   // function for the submit button. checks if the guess is correct/wrong, and applies according effects
   // first it checks for 4 selected words of the same group
   const handleSubmit = () => {
-    if (selectedWords.length === 4) {
       // disable submit button immediately after clicking
       setIsSubmitDisabled(true);
   
@@ -71,6 +80,12 @@ export default function Home() {
       wordElements.forEach((wordElement) => {
         wordElement.classList.add('pointer-events-none'); 
       });
+
+      setTimeout(() => {
+        wordElements.forEach((wordElement) => {
+          wordElement.classList.remove('pointer-events-none');
+        });
+      }, 5000)
   
       // if your guess is all from the same group, it's added to this variable
       const allSameGroup = selectedWords.every(word => word.group === selectedWords[0].group);
@@ -83,20 +98,17 @@ export default function Home() {
           setTimeout(() => {
             wordElement.classList.remove('jump');
           }, 400);
-        }, index * 80); // delay to make the effect sequential
+        }, index * 80); // delay added to make the effect sequential
       });
   
-      // waits for the effects to finish before checking the guess
+      // setTimeout is used here to let effects run before reacting accordingly to guess (correct/wrong)
       setTimeout(() => {
         if (allSameGroup) {
-          setLockedWords(prevLocked => [...prevLocked, selectedWords]);
-          setSelectedWords([]); // clear selected words
+          setLockedWords(prevLocked => [...prevLocked, selectedWords]); // adds selected words to locked words
+          setSelectedWords([]); // clears selected words
   
-          // re-enables wordboxes after a delay
+          // re-enables submit button after a delay
           setTimeout(() => {
-            wordElements.forEach((wordElement) => {
-              wordElement.classList.remove('pointer-events-none');
-            });
             setIsSubmitDisabled(false);
           }, 1500);
   
@@ -105,16 +117,13 @@ export default function Home() {
           setMistakesRemaining(prev => prev - 1);
           wrongGuessEffect();
   
-          // and re-enables submit button and wordboxes after a delay
+          // and re-enables submit button after a delay
           setTimeout(() => {
-            wordElements.forEach((wordElement) => {
-              wordElement.classList.remove('pointer-events-none');
-            });
             setIsSubmitDisabled(false);
-          }, 1200);
+          }, 1500);
         }
       }, 800); // waits for all jump effects to finish before checking the guess
-    }
+    
     console.log('selected words:', selectedWords);
   };
   
@@ -154,7 +163,8 @@ export default function Home() {
     }
   };
 
-  const [isHelpVisible, setIsHelpVisible] = useState(false); // state that controls help modal visibility
+  // state that controls help modal visibility
+  const [isHelpVisible, setIsHelpVisible] = useState(false); 
 
   const openHelp = () => {
     setIsHelpVisible(true);
@@ -163,16 +173,6 @@ export default function Home() {
   const closeHelp = () => {
     setIsHelpVisible(false);
   };
-
-  const [isShaking, setIsShaking] = useState(false);
-
-  const wrongGuessEffect = () => {
-    setIsShaking(true);
-    setTimeout(() => {
-      setIsShaking(false);
-    }, 1000);
-  };
-
 
   return (
     <main className="flex min-h-screen flex-col items-center p-15">
