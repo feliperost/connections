@@ -17,7 +17,7 @@ export default function Home() {
   const [lockedWords, setLockedWords] = useState<{ word: string; group: string }[][]>([]);
 
   // state to control number of tries and mistakes the user can make
-  const [mistakesRemaining, setMistakesRemaining] = useState(10);
+  const [mistakesRemaining, setMistakesRemaining] = useState(4);
 
   // shuffle function using Fisher-Yates algorithm
   const shuffleArray = (array: { word: string; group: string }[]) => {
@@ -57,14 +57,19 @@ export default function Home() {
   // state to control the submit button
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
-  // shake effect control below
-  const [isShaking, setIsShaking] = useState(false);
-
+  // wrong guess effect: gets the selected words, adds classes, and removes them after a delay
   const wrongGuessEffect = () => {
-    setIsShaking(true);
+    const wordElements = document.querySelectorAll('.selected-word');
+
+    wordElements.forEach((wordElement) => {
+      wordElement.classList.add('pointer-events-none', 'shake'); 
+    });
+
     setTimeout(() => {
-      setIsShaking(false);
-    }, 1000);
+      wordElements.forEach((wordElement) => {
+        wordElement.classList.remove('pointer-events-none', 'shake');
+      });
+    }, 1500)
   };
 
   // function for the submit button. checks if the guess is correct/wrong, and applies according effects
@@ -80,12 +85,6 @@ export default function Home() {
       wordElements.forEach((wordElement) => {
         wordElement.classList.add('pointer-events-none'); 
       });
-
-      setTimeout(() => {
-        wordElements.forEach((wordElement) => {
-          wordElement.classList.remove('pointer-events-none');
-        });
-      }, 5000)
   
       // if your guess is all from the same group, it's added to this variable
       const allSameGroup = selectedWords.every(word => word.group === selectedWords[0].group);
@@ -220,10 +219,9 @@ export default function Home() {
                 .filter(wordItem => !lockedWords.flat().some(lockedWord => lockedWord.word === wordItem.word))
                 .map((wordItem, index) => {
                   const isSelected = selectedWords.some(selectedWord => selectedWord.word === wordItem.word); // used to check for selected words
-                  const shouldShake = isShaking && isSelected; // used to check and apply shake effect only if word is selected and isShaking is true
                   
                   return (
-                    <li key={index} className={`${isSelected ? 'selected-word' : ''} ${shouldShake ? 'shake' : ''}`}>
+                    <li key={index} className={`${isSelected ? 'selected-word' : ''}`}>
                       <WordBox
                         word={wordItem.word}
                         group={wordItem.group}
