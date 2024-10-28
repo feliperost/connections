@@ -59,17 +59,19 @@ export default function Home() {
 
   // wrong guess effect: gets the selected words, adds classes, and removes them after a delay
   const wrongGuessEffect = () => {
+    
     const wordElements = document.querySelectorAll('.selected-word');
 
+    // [&>*] is used to pass the bg color class only to the child of this element (the WordBox itself)
     wordElements.forEach((wordElement) => {
-      wordElement.classList.add('pointer-events-none', 'shake'); 
+      wordElement.classList.add('pointer-events-none', 'shake', '[&>*]:bg-stone-400'); 
     });
 
     setTimeout(() => {
       wordElements.forEach((wordElement) => {
-        wordElement.classList.remove('pointer-events-none', 'shake');
+        wordElement.classList.remove('pointer-events-none', 'shake', '[&>*]:bg-stone-400');
       });
-    }, 1500)
+    }, 1200)
   };
 
   // function for the submit button. checks if the guess is correct/wrong, and applies according effects
@@ -122,8 +124,6 @@ export default function Home() {
           }, 1500);
         }
       }, 800); // waits for all jump effects to finish before checking the guess
-    
-    console.log('selected words:', selectedWords);
   };
   
   // clears all selected words (resets the selectedWords array)
