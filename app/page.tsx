@@ -189,6 +189,7 @@ export default function Home() {
           <button onClick={openHelp} className="absolute top-0 right-0 p-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">?</button>
           {isHelpVisible && <HelpModal closeHelp={closeHelp} />}
         </div>
+       
       </div>
   
       {/* initial check to see if the game can be played. if there are 0 mistakes remaining, GAME OVER case down below. */}
@@ -302,3 +303,14 @@ export default function Home() {
     </main> 
   );
 }
+
+
+// analyse https://codepip.com/codections/ to try and replicate some things:
+// 1. how classes are hidden.
+// maybe study this: https://stackoverflow.com/questions/50649474/hiding-innerhtml-when-another-element-class-is-displaynone
+
+// 2. how the wordboxes move into place after a correct guess.
+
+// block flex grid table
+// alter join limit select
+// host port query scheme
