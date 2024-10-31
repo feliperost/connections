@@ -3,6 +3,8 @@ import WordBox from "./components/WordBox";
 import HelpModal from "./components/HelpModal";
 import useLogic from "./components/useLogic";
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import lampIcon from "../public/Lamp-white.svg";
 
 export default function Home() {
   const { words } = useLogic();
@@ -177,18 +179,18 @@ export default function Home() {
   };
 
   // state that controls help modal visibility
-  const [isHelpVisible, setIsHelpVisible] = useState(false); 
+  const [isHelpVisible, setIsModalVisible] = useState(false); 
 
-  const openHelp = () => {
-    setIsHelpVisible(true);
+  const openModal = () => {
+    setIsModalVisible(true);
   }
 
-  const closeHelp = () => {
-    setIsHelpVisible(false);
+  const closeModal = () => {
+    setIsModalVisible(false);
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-15">
+    <main className="flex min-h-screen flex-col items-center">
 
       <div className="flex flex-col items-center w-[624px] mt-20">
         <div>
@@ -197,11 +199,15 @@ export default function Home() {
 
         <p>The code for the project can be accessed <a className="text-blue-600 font-semibold hover:underline hover:text-blue-400" href="https://github.com/feliperost/connections" target="_blank">here</a>.</p>
 
-        <div className="mt-5">Make groups of 4!</div>
+        <div className="flex flex-col items-center w-[624px] mt-5">
+          <p>Make groups of 4!</p>  
+          <div className="self-end relative place-content-end">
+            <button onClick={openModal} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">?</button>
+            {isHelpVisible && <HelpModal closeModal={closeModal} />}
 
-        <div className="self-end relative mb-5">
-          <button onClick={openHelp} className="absolute top-0 right-0 p-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">?</button>
-          {isHelpVisible && <HelpModal closeHelp={closeHelp} />}
+            <button onClick={openModal} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition"> <Image src={lampIcon} alt="Hint button"/> </button>
+            {isHelpVisible && <HelpModal closeModal={closeModal} />}
+          </div>
         </div>
        
       </div>
