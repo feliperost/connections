@@ -1,6 +1,7 @@
 "use client"; 
 import WordBox from "./components/WordBox";
 import HelpModal from "./components/HelpModal";
+import HintModal from "./components/HintModal";
 import useLogic from "./components/useLogic";
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -178,15 +179,22 @@ export default function Home() {
     }
   };
 
-  // state that controls help modal visibility
-  const [isHelpVisible, setIsModalVisible] = useState(false); 
+  // states that controls help and hint modals visibility
+  const [isHelpVisible, setIsHelpVisible] = useState(false); 
+  const [isHintVisible, setIsHintVisible] = useState(false); 
 
-  const openModal = () => {
-    setIsModalVisible(true);
+  const openHelp = () => {
+    setIsHelpVisible(true);
+  }
+  const openHint = () => {
+    setIsHintVisible(true);
   }
 
-  const closeModal = () => {
-    setIsModalVisible(false);
+  const closeHelp = () => {
+    setIsHelpVisible(false);
+  };
+  const closeHint = () => {
+    setIsHintVisible(false);
   };
 
   return (
@@ -201,12 +209,16 @@ export default function Home() {
 
         <div className="flex flex-col items-center w-[624px] mt-5">
           <p>Make groups of 4!</p>  
-          <div className="self-end relative place-content-end">
-            <button onClick={openModal} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">?</button>
-            {isHelpVisible && <HelpModal closeModal={closeModal} />}
+          <div className="flex self-end relative place-content-end">
+            <button onClick={openHelp} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">
+              ?
+            </button>
+            {isHelpVisible && <HelpModal closeHelp={closeHelp} />}
 
-            <button onClick={openModal} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition"> <Image src={lampIcon} alt="Hint button"/> </button>
-            {isHelpVisible && <HelpModal closeModal={closeModal} />}
+            <button onClick={openHint} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">
+              <Image src={lampIcon} alt="Hint button"/>
+            </button>
+            {isHintVisible && <HintModal closeHint={closeHint} />}
           </div>
         </div>
        

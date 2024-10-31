@@ -1,15 +1,15 @@
 "use client";
 
 interface HelpModalProps {
-  closeModal: () => void;
+  closeHelp: () => void;
 }
 
-const HelpModal = ({ closeModal }: HelpModalProps)  => {
+const HelpModal = ({ closeHelp }: HelpModalProps)  => {
 
     const handleClickOutside = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         // checks for outside click to close modal
         if (event.target === event.currentTarget) {
-          closeModal();
+          closeHelp();
         }
       };
 
@@ -23,7 +23,7 @@ const HelpModal = ({ closeModal }: HelpModalProps)  => {
             <p className="mb-2">• Click the words to select them, and click <b>Submit</b> to check if your guess is correct.</p>
             <p className="mb-2">• You can make 4 mistakes before the game is over.</p>
             <p className="mb-2">• For development purposes, the words and groups may be very easy to identify.</p>
-            <button onClick={closeModal} className="p-2 bg-red-500 hover:bg-red-400 text-white rounded absolute top-2 right-2">Close</button>
+            <button onClick={closeHelp} className="p-2 bg-red-500 hover:bg-red-400 text-white rounded absolute top-2 right-2">Close</button>
             </div>
         </div>
     </div>
