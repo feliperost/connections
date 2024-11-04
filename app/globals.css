@@ -32,11 +32,20 @@ body {
   }
 }
 
-.fade-in { animation: fadeIn 0.5s; }
+.fade-in { animation: fadeIn 0.4s; }
 
 @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
+}
+
+.fade-in-out { animation: fadeInOut 2.5s; }
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  25% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 .shake {
@@ -65,4 +74,35 @@ body {
   100% {
     transform: translateY(0);
   }
+}
+
+.spoiler {
+  overflow: hidden;
+}
+.checker {
+  display: none;
+}
+.toggle {
+  display: block;
+  overflow: hidden;
+  width: 100px;
+  height: 20px;
+  background: #000000;
+  padding: 5px;
+  color: #ecf0f1;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.checker:not(:checked) + .toggle + .spoiler {
+  height: 0;
+}
+.checker:checked + .toggle {
+  display: none;
+}
+p.hint {
+  white-space: pre;
+  font-size: 16px;
+  white-space: normal;
+
 }
