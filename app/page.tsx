@@ -64,6 +64,19 @@ export default function Home() {
   const wrongGuessEffect = () => {
     
     const wordElements = document.querySelectorAll('.selected-word');
+    // checks if only 3 of the selected words are from the same group (one away... effect)
+    const almostCorrect = selectedWords.filter(word => word.group === selectedWords[0].group).length === 3;
+
+    // reveal "One away..." popup if only 3 words match
+    if (almostCorrect) {
+      const popup = document.getElementById('one-away-popup');
+      if (popup) {  // ensure popup exists
+        popup.classList.remove('hidden'); // show popup
+        setTimeout(() => {
+          popup.classList.add('hidden'); // hide popup again
+        }, 2000);
+      }
+    }
 
     // [&>*] is used to pass the bg color class only to the child of this element (the WordBox itself)
     wordElements.forEach((wordElement) => {
@@ -93,9 +106,6 @@ export default function Home() {
   
       // if your guess is all from the same group, it's added to this variable
       const allSameGroup = selectedWords.every(word => word.group === selectedWords[0].group);
-
-      // checks if only 3 of the selected words are from the same group (one away... effect)
-      const almostCorrect = selectedWords.filter(word => word.group === selectedWords[0].group).length === 3;
   
       // applies 'jump' effect one word at a time with a delay between them
       wordElements.forEach((wordElement, index) => {
@@ -107,17 +117,6 @@ export default function Home() {
           }, 400);
         }, index * 80); // delay added to make the effect sequential
       });
-  
-      // reveal "One away..." popup if only 3 words match
-      if (almostCorrect) {
-        const popup = document.getElementById('one-away-popup');
-        if (popup) {  // ensure popup exists
-          popup.classList.remove('hidden'); // show popup
-          setTimeout(() => {
-            popup.classList.add('hidden'); // hide popup again
-          }, 2500);
-        }
-      }
       
       // setTimeout is used here to let effects run before reacting accordingly to guess (correct/wrong)
       setTimeout(() => {
@@ -285,7 +284,7 @@ export default function Home() {
             </span>
           </div>
 
-          <div id="one-away-popup" className="hidden fixed top-1/3 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded shadow-lg fade-in-out">
+          <div id="one-away-popup" className="hidden fixed top-1/3 bg-gray-800 text-white px-4 py-2 rounded shadow-lg fade-in-out">
             One away...
           </div>          
   
