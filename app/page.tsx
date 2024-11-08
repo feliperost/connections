@@ -93,7 +93,7 @@ export default function Home() {
   // function for the submit button. checks if the guess is correct/wrong, and applies according effects
   // first it checks for 4 selected words of the same group
   const handleSubmit = () => {
-      // disable submit button immediately after clicking
+      // disables submit button immediately after clicking
       setIsSubmitDisabled(true);
   
       // selector to apply 'jump' effect on selected words
@@ -126,7 +126,7 @@ export default function Home() {
   
           // re-enables submit button after a delay
           setTimeout(() => {
-            setIsSubmitDisabled(false);
+            setIsSubmitDisabled(false);    
           }, 1500);
   
         } else {
@@ -136,7 +136,7 @@ export default function Home() {
   
           // and re-enables submit button after a delay
           setTimeout(() => {
-            setIsSubmitDisabled(false);
+            setIsSubmitDisabled(false);    
           }, 1500);
         }
       }, 800); // waits for all jump effects to finish before checking the guess
@@ -292,14 +292,14 @@ export default function Home() {
             <button
               className="mx-2 transition ease-in-out font-sans font-semibold h-[50px] rounded-full border-solid border-[1px] border-black p-2 px-5 text-center content-center bg-none disabled:opacity-30"
               onClick={handleShuffle}
-              disabled={mistakesRemaining <= 0}>
+              disabled={mistakesRemaining <= 0 || isSubmitDisabled}>
               Shuffle
             </button>
   
             <button
               className="mx-2 transition ease-in-out font-sans font-semibold h-[50px] rounded-full border-solid border-[1px] border-black p-2 px-5 text-center content-center bg-none disabled:opacity-30"
               onClick={deselectAll}
-              disabled={selectedWords.length < 1 || mistakesRemaining <= 0}>
+              disabled={selectedWords.length < 1 || mistakesRemaining <= 0 || isSubmitDisabled}>
               Deselect all
             </button>
   
