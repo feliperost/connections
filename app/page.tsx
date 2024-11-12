@@ -2,10 +2,14 @@
 import WordBox from "./components/WordBox";
 import HelpModal from "./components/HelpModal";
 import HintModal from "./components/HintModal";
+import StatsModal from "./components/StatsModal";
+import ResultsModal from "./components/ResultsModal";
 import useLogic from "./components/useLogic";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import lampIcon from "../public/Lamp-white.svg";
+import statsIcon from "../public/stats.svg";
+
 
 export default function Home() {
   const { words } = useLogic();
@@ -181,12 +185,21 @@ export default function Home() {
   // states that controls help and hint modals visibility
   const [isHelpVisible, setIsHelpVisible] = useState(false); 
   const [isHintVisible, setIsHintVisible] = useState(false); 
+  const [isStatsVisible, setIsStatsVisible] = useState(false); 
+  const [isResultsVisible, setIsResultsVisible] = useState(false); 
+
 
   const openHelp = () => {
     setIsHelpVisible(true);
   }
   const openHint = () => {
     setIsHintVisible(true);
+  }
+  const openStats = () => {
+    setIsStatsVisible(true);
+  }
+  const openResults = () => {
+    setIsResultsVisible(true);
   }
 
   const closeHelp = () => {
@@ -195,6 +208,13 @@ export default function Home() {
   const closeHint = () => {
     setIsHintVisible(false);
   };
+  const closeStats = () => {
+    setIsStatsVisible(false);
+  };
+  const closeResults = () => {
+    setIsResultsVisible(false);
+  };
+
 
   return (
     <main className="flex min-h-screen flex-col items-center">
@@ -213,6 +233,11 @@ export default function Home() {
               ?
             </button>
             {isHelpVisible && <HelpModal closeHelp={closeHelp} />}
+
+            <button onClick={openStats} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">
+              <Image className="invert" src={statsIcon} alt="Statistics button"/>
+            </button>
+            {isStatsVisible && <StatsModal closeStats={closeStats} />}
 
             <button onClick={openHint} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">
               <Image src={lampIcon} alt="Hint button"/>
@@ -332,6 +357,14 @@ export default function Home() {
                 </ul>
               </div>
             ))}
+            <div className="flex flex-col items-center">
+              <button
+              className="mt-5 mx-2 transition ease-in-out font-sans font-semibold h-[50px] rounded-full border-solid border-[1px] border-black p-2 px-5 text-center content-center bg-none disabled:opacity-30"
+              onClick={openResults}>
+              View Results
+              </button>
+            </div>
+            {isResultsVisible && <ResultsModal closeResults={closeResults} />}
           </div>
         </div>
       )}
