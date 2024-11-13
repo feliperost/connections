@@ -17,6 +17,9 @@ export default function Home() {
   // state of selected words
   const [selectedWords, setSelectedWords] = useState<{ word: string; group: string }[]>([]);
 
+  // state of tries (showed in the results on game over)
+  const [guessedWords, setGuessedWords] = useState<{ word: string; group: string }[][]>([]);
+
   // state to hold the shuffled words
   const [shuffledWords, setShuffledWords] = useState<{ word: string; group: string }[]>([]);
 
@@ -127,7 +130,10 @@ export default function Home() {
         if (allSameGroup) {
           setLockedWords(prevLocked => [...prevLocked, selectedWords]); // adds selected words to locked words
           setSelectedWords([]); // clears selected words
-  
+
+          // adds selected words to guessedWords
+          setGuessedWords(prevGuessedWords => [...prevGuessedWords, selectedWords]);
+
           // re-enables submit button after a delay
           setTimeout(() => {
             setIsSubmitDisabled(false);    
@@ -137,7 +143,10 @@ export default function Home() {
           // if the guess is wrong, removes 1 'life' and applies the shake effect...
           setMistakesRemaining(prev => prev - 1);
           wrongGuessEffect();
-  
+
+          // adds selected words to guessedWords even if the guess is wrong
+          setGuessedWords(prevGuessedWords => [...prevGuessedWords, selectedWords]);
+
           // and re-enables submit button after a delay
           setTimeout(() => {
             setIsSubmitDisabled(false);    
@@ -364,7 +373,7 @@ export default function Home() {
               View Results
               </button>
             </div>
-            {isResultsVisible && <ResultsModal closeResults={closeResults} />}
+            {isResultsVisible && <ResultsModal guessedWords={guessedWords} closeResults={closeResults} />}
           </div>
         </div>
       )}
