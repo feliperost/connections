@@ -197,7 +197,6 @@ export default function Home() {
   const [isStatsVisible, setIsStatsVisible] = useState(false); 
   const [isResultsVisible, setIsResultsVisible] = useState(false); 
 
-
   const openHelp = () => {
     setIsHelpVisible(true);
   }
@@ -224,7 +223,6 @@ export default function Home() {
     setIsResultsVisible(false);
   };
 
-
   return (
     <main className="flex min-h-screen flex-col items-center">
 
@@ -236,7 +234,6 @@ export default function Home() {
         <p>The code for the project can be accessed <a className="text-blue-600 font-semibold hover:underline hover:text-blue-400" href="https://github.com/feliperost/connections" target="_blank">here</a>.</p>
 
         <div className="flex flex-col items-center w-[624px] mt-5">
-          <p>Make groups of 4!</p>  
           <div className="flex self-end relative place-content-end">
             <button onClick={openHelp} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">
               ?
@@ -253,8 +250,11 @@ export default function Home() {
             </button>
             {isHintVisible && <HintModal closeHint={closeHint} />}
           </div>
+          
+        <hr className="my-3 border-black rounded w-[100%]"></hr>
+
         </div>
-       
+          <p>Make groups of 4!</p>  
       </div>
   
       {/* initial check to see if the game can be played. if there are 0 mistakes remaining, GAME OVER case down below. */}
