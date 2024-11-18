@@ -29,32 +29,24 @@ const ResultsModal = ({ closeResults, guessedWords }: ResultsModalProps)  => {
         }
     };
 
+    // function to copy results (game summary) to clipboard
     const shareResults = () => {
-        console.log('copied to clipboard');
+        const results = guessedWords.map((guess) => 
+            // combines squares into a string
+            guess.map((word) => getColorByGroup(word.group)).join("")) 
+            // then adds a line break every guess (4 items)
+            .join("\n");
 
-        const resultsElement = document.getElementById('game-summary');
+        navigator.clipboard.writeText(`Connections Puzzle #001\n\n${results}`);
 
-        if (resultsElement) {
-            // extracts the text content from the element
-            const resultsText = resultsElement.innerText;
-
-            // Copy the text to the clipboard
-            navigator.clipboard.writeText(`
-                Connections Puzzle #001 ${resultsText}
-                `);
-
-            // Show popup confirmation
-            const popup = document.getElementById('copied-results-popup');
-            if (popup) {
-                popup.classList.remove('hidden'); // Show popup
-                setTimeout(() => {
-                    popup.classList.add('hidden'); // Hide popup after 2s
-                }, 2000);
-            }
-        } else {
-            console.error('Game summary element not found.');
+        const popup = document.getElementById("copied-results-popup");
+        if (popup) {
+            popup.classList.remove("hidden"); 
+            setTimeout(() => {
+                popup.classList.add("hidden"); 
+            }, 2000);
         }
-};
+    };
 
   return (
     <div className="fade-in">
@@ -99,7 +91,7 @@ const ResultsModal = ({ closeResults, guessedWords }: ResultsModalProps)  => {
                     {guessedWords.map((guess, index) => (
                         <div key={index} className="flex" id="results">
                         {guess.map((word) => (
-                            <span key={word.word}>{getColorByGroup(word.group)}</span>
+                            <p key={word.word}>{getColorByGroup(word.group)}</p>
                         ))}
                         </div>
                     ))}
