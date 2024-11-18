@@ -13,6 +13,7 @@ const ResultsModal = ({ closeResults, guessedWords }: ResultsModalProps)  => {
             closeResults();
         }
       };
+
     const getColorByGroup = (group: string) => {
     switch (group) {
         case "countries":
@@ -27,17 +28,33 @@ const ResultsModal = ({ closeResults, guessedWords }: ResultsModalProps)  => {
         return "■"; 
         }
     };
+
     const shareResults = () => {
-        console.log('copied to clipboard')
-        
-        const popup = document.getElementById('copied-results-popup');
-        if (popup) {  // ensure popup exists
-            popup.classList.remove('hidden'); // show popup
-            setTimeout(() => {
-            popup.classList.add('hidden'); // hide popup again
-            }, 2000);
+        console.log('copied to clipboard');
+
+        const resultsElement = document.getElementById('game-summary');
+
+        if (resultsElement) {
+            // extracts the text content from the element
+            const resultsText = resultsElement.innerText;
+
+            // Copy the text to the clipboard
+            navigator.clipboard.writeText(`
+                Connections Puzzle #001 ${resultsText}
+                `);
+
+            // Show popup confirmation
+            const popup = document.getElementById('copied-results-popup');
+            if (popup) {
+                popup.classList.remove('hidden'); // Show popup
+                setTimeout(() => {
+                    popup.classList.add('hidden'); // Hide popup after 2s
+                }, 2000);
+            }
+        } else {
+            console.error('Game summary element not found.');
         }
-    }
+};
 
   return (
     <div className="fade-in">
@@ -75,8 +92,9 @@ const ResultsModal = ({ closeResults, guessedWords }: ResultsModalProps)  => {
             </div>
 
             <hr className="my-3 border-black rounded"></hr>
-                        
-                <div className="flex flex-col items-center">
+                
+                {/* creating the squares representing the player's game summary */}
+                <div id="game-summary" className="flex flex-col items-center">
                 <p className="mb-2">Game summary</p>
                     {guessedWords.map((guess, index) => (
                         <div key={index} className="flex" id="results">
