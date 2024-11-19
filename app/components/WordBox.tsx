@@ -1,5 +1,4 @@
 "use client"; 
-import getColorByGroup from '../page'; // using to change the color of the button
 
 export type WordProps = { 
   word: string; 

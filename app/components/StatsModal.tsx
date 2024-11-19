@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 interface StatsModalProps {
   closeStats: () => void;
@@ -19,13 +20,43 @@ const StatsModal = ({ closeStats }: StatsModalProps)  => {
             <div className="bg-white p-8 rounded shadow-lg max-w-lg w-full relative">
                 
             <h2 className="text-2xl font-bold mb-4">Statistics</h2>
-            <p className="mb-2">• Display the following info:</p>
-            <p className="mb-2">• Games completed</p>
-            <p className="mb-2">• Win %</p>
-            <p className="mb-2">• Current streak</p>
-            <p className="mb-2">• Max streak</p>
+            <hr className="my-3 border-black rounded"></hr>
+
+            <p>Dummy data for now.</p>
+            <div className="flex justify-center space-x-8 mt-4">
+                <div className="text-center">
+                    <div className="text-xl">15</div>
+                    <div className="text-xs">Completed</div>
+                </div>
+
+                <div className="text-center">
+                    <div className="text-xl">55</div>
+                    <div className="text-xs">Win %</div>
+                </div>
+
+                <div className="text-center">
+                    <div className="text-xl">0</div>
+                    <div className="text-xs">Current streak</div>
+                </div>
+
+                <div className="text-center">
+                    <div className="text-xl">2</div>
+                    <div className="text-xs">Max Streak</div>
+                </div>
+            </div>
+            <hr className="my-3 border-black rounded"></hr>
+            <div className="text-center">
+                    <div className="text-xl">0</div>
+                    <div className="text-xs">Perfect Puzzles</div>
+                </div>
+            <hr className="my-3 border-black rounded"></hr>
+
+            <p>Mistake Histogram: A graph showing the number of puzzles you have solved with 0 to 4 mistakes. Horizontal bars graph.</p>
             
-            <button onClick={closeStats} className="p-2 bg-red-500 hover:bg-red-400 text-white rounded absolute top-2 right-2">Close</button>
+            <button onClick={closeStats} className="p-2 rounded absolute top-2 right-2">
+                <Image src={"https://www.svgrepo.com/show/521564/close.svg"} width={20} height={20} alt="Close stats button"/>
+            </button>
+
             </div>
         </div>
     </div>

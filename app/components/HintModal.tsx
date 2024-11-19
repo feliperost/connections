@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 interface HintModalProps {
   closeHint: () => void;
@@ -57,7 +58,9 @@ const HintModal = ({ closeHint }: HintModalProps)  => {
                 </div>
             </div>
             
-            <button onClick={closeHint} className="p-2 bg-red-500 hover:bg-red-400 text-white rounded absolute top-2 right-2">Close</button>
+            <button onClick={closeHint} className="p-2 rounded absolute top-2 right-2">
+                <Image src={"https://www.svgrepo.com/show/521564/close.svg"} width={20} height={20} alt="Close stats button"/>
+            </button>
             </div>
         </div>
     </div>
