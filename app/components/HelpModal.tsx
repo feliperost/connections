@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import { X } from 'lucide-react';
 
 interface HelpModalProps {
   closeHelp: () => void;
@@ -26,7 +26,7 @@ const HelpModal = ({ closeHelp }: HelpModalProps)  => {
             <p className="mb-2">• For development purposes, the words and groups may be very easy to identify.</p>
 
             <button onClick={closeHelp} className="p-2 rounded absolute top-2 right-2">
-                <Image src={"https://www.svgrepo.com/show/521564/close.svg"} width={20} height={20} alt="Close stats button"/>
+                <X/>
             </button>
             </div>
         </div>

@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import { X } from 'lucide-react';
 
 interface ResultsModalProps {
   closeResults: () => void;
@@ -57,7 +57,7 @@ const ResultsModal = ({ closeResults, guessedWords }: ResultsModalProps)  => {
             <h2 className="text-2xl font-bold mb-4">Results</h2>
             <hr className="my-3 border-black rounded"></hr>
 
-            <div className="flex justify-center space-x-8 mt-4">
+            <div className="flex justify-center space-x-8 my-3">
                 <div className="text-center">
                     <div className="text-xl">15</div>
                     <div className="text-xs">Completed</div>
@@ -107,7 +107,7 @@ const ResultsModal = ({ closeResults, guessedWords }: ResultsModalProps)  => {
             </div>
 
             <button onClick={closeResults} className="p-2 rounded absolute top-2 right-2">
-                <Image src={"https://www.svgrepo.com/show/521564/close.svg"} width={20} height={20} alt="Close stats button"/>
+                <X/>
             </button>
 
             </div>

@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import { X } from 'lucide-react';
 
 interface StatsModalProps {
   closeStats: () => void;
@@ -23,7 +23,7 @@ const StatsModal = ({ closeStats }: StatsModalProps)  => {
             <hr className="my-3 border-black rounded"></hr>
 
             <p>Dummy data for now.</p>
-            <div className="flex justify-center space-x-8 mt-4">
+            <div className="flex justify-center space-x-8 my-3">
                 <div className="text-center">
                     <div className="text-xl">15</div>
                     <div className="text-xs">Completed</div>
@@ -54,7 +54,7 @@ const StatsModal = ({ closeStats }: StatsModalProps)  => {
             <p>Mistake Histogram: A graph showing the number of puzzles you have solved with 0 to 4 mistakes. Horizontal bars graph.</p>
             
             <button onClick={closeStats} className="p-2 rounded absolute top-2 right-2">
-                <Image src={"https://www.svgrepo.com/show/521564/close.svg"} width={20} height={20} alt="Close stats button"/>
+                <X />
             </button>
 
             </div>

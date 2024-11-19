@@ -6,9 +6,7 @@ import StatsModal from "./components/StatsModal";
 import ResultsModal from "./components/ResultsModal";
 import useLogic from "./components/useLogic";
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import lampIcon from "../public/Lamp-white.svg";
-import statsIcon from "../public/stats.svg";
+import { Lightbulb, SquareChartGantt, CircleHelp } from 'lucide-react';
 
 
 export default function Home() {
@@ -236,17 +234,17 @@ export default function Home() {
         <div className="flex flex-col items-center w-[624px] mt-5">
           <div className="flex self-end relative place-content-end">
             <button onClick={openHelp} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">
-              ?
+              <CircleHelp />
             </button>
             {isHelpVisible && <HelpModal closeHelp={closeHelp} />}
 
             <button onClick={openStats} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">
-              <Image className="invert" src={statsIcon} alt="Statistics button"/>
+              <SquareChartGantt />
             </button>
             {isStatsVisible && <StatsModal closeStats={closeStats} />}
 
             <button onClick={openHint} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">
-              <Image src={lampIcon} alt="Hint button"/>
+            <Lightbulb />
             </button>
             {isHintVisible && <HintModal closeHint={closeHint} />}
           </div>

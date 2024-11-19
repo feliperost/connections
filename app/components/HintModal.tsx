@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import { X } from 'lucide-react';
 
 interface HintModalProps {
   closeHint: () => void;
@@ -59,7 +59,7 @@ const HintModal = ({ closeHint }: HintModalProps)  => {
             </div>
             
             <button onClick={closeHint} className="p-2 rounded absolute top-2 right-2">
-                <Image src={"https://www.svgrepo.com/show/521564/close.svg"} width={20} height={20} alt="Close stats button"/>
+                <X/>
             </button>
             </div>
         </div>
