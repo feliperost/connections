@@ -10,7 +10,7 @@ import { Lightbulb, SquareChartGantt, CircleHelp } from 'lucide-react';
 
 
 export default function Home() {
-  const { words } = useLogic();
+  const { puzzleData } = useLogic();
 
   // state of selected words
   const [selectedWords, setSelectedWords] = useState<{ word: string; group: string }[]>([]);
@@ -39,14 +39,14 @@ export default function Home() {
 
   // useEffect to shuffle words when the component mounts
   useEffect(() => {
-    if (words && words.length > 0 && shuffledWords.length === 0) {
-      setShuffledWords(shuffleArray(words)); // shuffles only if shuffledWords is empty
+    if (puzzleData.words && puzzleData.words.length > 0 && shuffledWords.length === 0) {
+      setShuffledWords(shuffleArray(puzzleData.words)); // shuffles only if shuffledWords is empty
     }
-  }, [words, shuffledWords.length]); // this ensures the shuffle happens when words are first loaded
+  }, [puzzleData.words, shuffledWords.length]); // this ensures the shuffle happens when words are first loaded
 
   // function to shuffle words when the "Shuffle" button is clicked
   const handleShuffle = () => {
-    setShuffledWords(shuffleArray(words)); 
+    setShuffledWords(shuffleArray(puzzleData.words)); 
   };
 
   // function to add or remove word&group from selected array when user clicks the word button

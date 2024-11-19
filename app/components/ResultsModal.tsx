@@ -1,5 +1,6 @@
 "use client";
 import { X } from 'lucide-react';
+import useLogic from "./useLogic";
 
 interface ResultsModalProps {
   closeResults: () => void;
@@ -7,6 +8,8 @@ interface ResultsModalProps {
 }
 
 const ResultsModal = ({ closeResults, guessedWords }: ResultsModalProps)  => {
+
+    const { puzzleData } = useLogic();
 
     const handleClickOutside = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         // checks for outside click to close modal
@@ -38,7 +41,7 @@ const ResultsModal = ({ closeResults, guessedWords }: ResultsModalProps)  => {
             // then adds a line break every guess (4 items)
             .join("\n");
 
-        navigator.clipboard.writeText(`Connections Puzzle #001\n\n${results}`);
+        navigator.clipboard.writeText(`Connections Puzzle #${puzzleData.puzzleNumber}\n\n${results}`);
 
         const popup = document.getElementById("copied-results-popup");
         if (popup) {
@@ -88,7 +91,7 @@ const ResultsModal = ({ closeResults, guessedWords }: ResultsModalProps)  => {
                 
                 {/* creating the squares representing the player's game summary */}
                 <div id="game-summary" className="flex flex-col items-center">
-                <p className="mb-2">Game summary</p>
+                <p className="mb-2">Puzzle #{puzzleData.puzzleNumber} Summary</p>
                     {guessedWords.map((guess, index) => (
                         <div key={index} className="flex" id="results">
                         {guess.map((word) => (
