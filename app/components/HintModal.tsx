@@ -1,11 +1,15 @@
 "use client";
 import { X } from 'lucide-react';
+import useLogic from "./useLogic";
+
 
 interface HintModalProps {
   closeHint: () => void;
 }
 
 const HintModal = ({ closeHint }: HintModalProps)  => {
+
+    const { puzzleData } = useLogic();
 
     const handleClickOutside = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         // checks for outside click to close modal
@@ -27,7 +31,7 @@ const HintModal = ({ closeHint }: HintModalProps)  => {
                 <input type="checkbox" id="checker1" className="checker"/>
                 <label htmlFor="checker1" className="toggle">Reveal</label>
                 <div className="spoiler">
-                    <p className="hint">BRAZIL</p>
+                    <p className="hint">{puzzleData.words.find(word => word.group.startsWith('1'))?.word.toUpperCase()}</p>
                 </div>
             </div>
 
@@ -36,7 +40,7 @@ const HintModal = ({ closeHint }: HintModalProps)  => {
                 <input type="checkbox" id="checker2" className="checker"/>
                 <label htmlFor="checker2" className="toggle">Reveal</label>
                 <div className="spoiler">
-                    <p className="hint">DOG</p>
+                    <p className="hint">{puzzleData.words.find(word => word.group.startsWith('2'))?.word.toUpperCase()}</p>
                 </div>
             </div>
 
@@ -45,7 +49,7 @@ const HintModal = ({ closeHint }: HintModalProps)  => {
                 <input type="checkbox" id="checker3" className="checker"/>
                 <label htmlFor="checker3" className="toggle">Reveal</label>
                 <div className="spoiler">
-                    <p className="hint">ORANGE</p>
+                    <p className="hint">{puzzleData.words.find(word => word.group.startsWith('3'))?.word.toUpperCase()}</p>
                 </div>
             </div>
 
@@ -54,7 +58,7 @@ const HintModal = ({ closeHint }: HintModalProps)  => {
                 <input type="checkbox" id="checker4" className="checker"/>
                 <label htmlFor="checker4" className="toggle">Reveal</label>
                 <div className="spoiler">
-                    <p className="hint">BLUE</p>
+                    <p className="hint">{puzzleData.words.find(word => word.group.startsWith('4'))?.word.toUpperCase()}</p>
                 </div>
             </div>
             
