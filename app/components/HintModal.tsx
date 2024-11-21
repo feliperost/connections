@@ -20,41 +20,41 @@ const HintModal = ({ closeHint }: HintModalProps)  => {
             <div className="bg-white p-8 rounded shadow-lg max-w-lg w-full relative">
                 
             <h2 className="text-2xl font-bold mb-4">Need a hint?</h2>
-            <p className="mb-2">• Click the button to reveal it.</p>
+            <p className="mb-2">Each category has a different difficulty level. Yellow is the simplest, and purple is the most difficult. Click or tap each button to reveal one of the words in that category.</p>
 
-            <div className="flex mt-2">
-                <p className="font-bold mr-2">Hint 1:</p>
+            <div className="flex flex-col mt-2">
+                <p className="font-semibold mr-2">🟨 Straightforward</p>
                 <input type="checkbox" id="checker1" className="checker"/>
                 <label htmlFor="checker1" className="toggle">Reveal</label>
                 <div className="spoiler">
-                    <p className="hint">Text for hint 1.</p>
+                    <p className="hint">BRAZIL</p>
                 </div>
             </div>
 
-            <div className="flex mt-2">
-                <p className="font-bold mr-2">Hint 2:</p>
+            <div className="flex flex-col mt-2">
+                <p className="font-semibold mr-2">🟩 ⬇️</p>
                 <input type="checkbox" id="checker2" className="checker"/>
                 <label htmlFor="checker2" className="toggle">Reveal</label>
                 <div className="spoiler">
-                    <p className="hint">Text for hint 2.</p>
+                    <p className="hint">DOG</p>
                 </div>
             </div>
 
-            <div className="flex mt-2">
-                <p className="font-bold mr-2">Hint 3:</p>
+            <div className="flex flex-col mt-2">
+                <p className="font-semibold mr-2">🟦 ⬇️</p>
                 <input type="checkbox" id="checker3" className="checker"/>
                 <label htmlFor="checker3" className="toggle">Reveal</label>
                 <div className="spoiler">
-                    <p className="hint">Text for hint 3.</p>
+                    <p className="hint">ORANGE</p>
                 </div>
             </div>
 
-            <div className="flex mt-2">
-                <p className="font-bold mr-2">Hint 4:</p>
+            <div className="flex flex-col mt-2">
+                <p className="font-semibold mr-2">🟪 Tricky</p>
                 <input type="checkbox" id="checker4" className="checker"/>
                 <label htmlFor="checker4" className="toggle">Reveal</label>
                 <div className="spoiler">
-                    <p className="hint">Text for hint 4.</p>
+                    <p className="hint">BLUE</p>
                 </div>
             </div>
             

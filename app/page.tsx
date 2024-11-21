@@ -176,13 +176,13 @@ export default function Home() {
   // for now the groups are hardcoded (countries animals etc), later we will try to work on a logic to fix this
   const getColorByGroup = (group: string) => {
     switch (group) {
-      case "countries":
+      case "4 colors":
         return "bg-purple-400/90"; 
-      case "animals":
+      case "3 fruits":
         return "bg-blue-200"; 
-      case "fruits":
+      case "1 countries":
         return "bg-yellow-200"; 
-      case "colors":
+      case "2 animals":
         return "bg-lime-500/60"; 
       default:
         return "bg-gray-400"; 
@@ -224,7 +224,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center">
 
-      <div className="flex flex-col items-center w-[624px] mt-20">
+      <div className="flex flex-col items-center w-[624px] mt-12">
         <div>
           <p className="">This is a study project trying to recreate the NY Times game <a className="text-blue-600 font-semibold hover:underline hover:text-blue-400" href="https://www.nytimes.com/games/connections" target="_blank">Connections</a>.</p>
         </div>
@@ -263,7 +263,7 @@ export default function Home() {
             {lockedWords.map((groupWords, index) => (
               <div key={index} className={`rounded-md text-center mt-2 h-[80px] w-[624px] text-lg transition p-2 ${getColorByGroup(groupWords[0].group)}`}>
                 <div className=" font-bold uppercase mt-1">
-                  {groupWords[0].group}
+                  {groupWords[0].group.slice(2)}
                 </div>
                 <div className="flex justify-center font-sans uppercase">
                   <p>{groupWords[0].word + ', '}</p>
@@ -348,27 +348,35 @@ export default function Home() {
         <div>
           <div className="fade-in mt-8">
             {/* organizing words by group */}
-            {organizeWordsByGroup(shuffledWords).map(([group, words], index) => (
-              <div key={index} className={`rounded-md text-center mt-2 h-[80px] w-[624px] text-lg transition p-2 ${getColorByGroup(group)}`}>
-                {/* renders group name */}
-                <div className="font-bold uppercase mt-1">
-                  {group}
+            {organizeWordsByGroup(shuffledWords)
+              // sort groups by the complexity number (first character of group string)
+              .sort(([groupA], [groupB]) => parseInt(groupA[0]) - parseInt(groupB[0]))
+              .map(([group, words], index) => (
+                <div
+                  key={index}
+                  className={`rounded-md text-center mt-2 h-[80px] w-[624px] text-lg transition p-2 ${getColorByGroup(group)}`}
+                >
+                  {/* renders group name without the complexity number */}
+                  <div className="font-bold uppercase mt-1">
+                    {group.slice(2)} {/* removes the first two characters (e.g., "1 ") */}
+                  </div>
+                  {/* renders the words in the group */}
+                  <ul className="flex justify-center font-sans uppercase">
+                    {words.map((word, index) => (
+                      <li key={index}>
+                        {word.word}
+                        {index < words.length - 1 && ", "}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                {/* renders the words in the group */}
-                <ul className="flex justify-center font-sans uppercase">
-                  {words.map((word, index) => (
-                    <li key={index}>
-                    {word.word}{index < words.length - 1 && ", "}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+              ))}
             <div className="flex flex-col items-center">
               <button
-              className="mt-5 mx-2 transition ease-in-out font-sans font-semibold h-[50px] rounded-full border-solid border-[1px] border-black p-2 px-5 text-center content-center bg-none disabled:opacity-30"
-              onClick={openResults}>
-              View Results
+                className="mt-5 mx-2 transition ease-in-out font-sans font-semibold h-[50px] rounded-full border-solid border-[1px] border-black p-2 px-5 text-center content-center bg-none disabled:opacity-30"
+                onClick={openResults}
+              >
+                View Results
               </button>
             </div>
             {isResultsVisible && <ResultsModal guessedWords={guessedWords} closeResults={closeResults} />}

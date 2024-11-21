@@ -20,14 +20,14 @@ const ResultsModal = ({ closeResults, guessedWords }: ResultsModalProps)  => {
 
     const getColorByGroup = (group: string) => {
     switch (group) {
-        case "countries":
-        return "🟪"; 
-        case "animals":
-        return "🟦"; 
-        case "fruits":
+        case "1 countries":
         return "🟨"; 
-        case "colors":
+        case "2 animals":
         return "🟩"; 
+        case "3 fruits":
+        return "🟦"; 
+        case "4 colors":
+        return "🟪"; 
         default:
         return "■"; 
         }
