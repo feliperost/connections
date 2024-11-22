@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { X } from 'lucide-react';
 import useLogic from "./useLogic";
 
@@ -10,6 +11,16 @@ interface HintModalProps {
 const HintModal = ({ closeHint }: HintModalProps)  => {
 
     const { puzzleData } = useLogic();
+
+    // controls hint visibility based on the group prefix (1,2,3,4)
+    const [revealedHints, setRevealedHints] = useState<string[]>([]);
+
+    const handleHintClick = (group: string) => {
+    // verifies if clicked hint group is already in the array above. if not, adds it to the array.
+      if (!revealedHints.includes(group)) {
+        setRevealedHints([...revealedHints, group]);
+      }
+    };
 
     const handleClickOutside = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         // checks for outside click to close modal
@@ -24,44 +35,34 @@ const HintModal = ({ closeHint }: HintModalProps)  => {
             <div className="bg-white p-8 rounded shadow-lg max-w-lg w-full relative">
                 
             <h2 className="text-2xl font-bold mb-4">Need a hint?</h2>
-            <p className="mb-2">Each category has a different difficulty level. Yellow is the simplest, and purple is the most difficult. Click or tap each button to reveal one of the words in that category.</p>
+            <p className="mb-2">Each category has a different difficulty level. Yellow is the simplest, and purple is the most difficult. Click or tap each level to reveal one of the words in that category.</p>
 
-            <div className="flex flex-col mt-2">
-                <p className="font-semibold mr-2">🟨 Straightforward</p>
-                <input type="checkbox" id="checker1" className="checker"/>
-                <label htmlFor="checker1" className="toggle">Reveal</label>
-                <div className="spoiler">
-                    <p className="hint">{puzzleData.words.find(word => word.group.startsWith('1'))?.word.toUpperCase()}</p>
+        <div>
+            {/* we use an array with the group prefixes to iterate through */}
+            {['1', '2', '3', '4'].map((groupPrefix) => (
+            <div key={groupPrefix} className="flex flex-col mt-2">
+                <p className="font-semibold mr-2 cursor-pointer hover:underline" onClick={() => handleHintClick(groupPrefix)}>
+                    {groupPrefix === '1'
+                    ? '🟨 Straightforward'
+                    : groupPrefix === '2'
+                    ? '🟩 ⬇️'
+                    : groupPrefix === '3'
+                    ? '🟦 ⬇️'
+                    : groupPrefix === '4'
+                    ? '🟪 Tricky'
+                    : ''
+                    }
+                </p>
+                {/* below, it checks if the group prefix is ​​in revealedHints. if it is, applies opacity-100 to make the hint visible. */}
+                <div className={`opacity-0 transition-opacity duration-500 ${revealedHints.includes(groupPrefix) ? 'opacity-100' : ''}`}>
+                    {puzzleData.words
+                    .find((word) => word.group.startsWith(groupPrefix))
+                    ?.word.toUpperCase()}
                 </div>
             </div>
+            ))}
+        </div>
 
-            <div className="flex flex-col mt-2">
-                <p className="font-semibold mr-2">🟩 ⬇️</p>
-                <input type="checkbox" id="checker2" className="checker"/>
-                <label htmlFor="checker2" className="toggle">Reveal</label>
-                <div className="spoiler">
-                    <p className="hint">{puzzleData.words.find(word => word.group.startsWith('2'))?.word.toUpperCase()}</p>
-                </div>
-            </div>
-
-            <div className="flex flex-col mt-2">
-                <p className="font-semibold mr-2">🟦 ⬇️</p>
-                <input type="checkbox" id="checker3" className="checker"/>
-                <label htmlFor="checker3" className="toggle">Reveal</label>
-                <div className="spoiler">
-                    <p className="hint">{puzzleData.words.find(word => word.group.startsWith('3'))?.word.toUpperCase()}</p>
-                </div>
-            </div>
-
-            <div className="flex flex-col mt-2">
-                <p className="font-semibold mr-2">🟪 Tricky</p>
-                <input type="checkbox" id="checker4" className="checker"/>
-                <label htmlFor="checker4" className="toggle">Reveal</label>
-                <div className="spoiler">
-                    <p className="hint">{puzzleData.words.find(word => word.group.startsWith('4'))?.word.toUpperCase()}</p>
-                </div>
-            </div>
-            
             <button onClick={closeHint} className="p-2 rounded absolute top-2 right-2">
                 <X/>
             </button>
