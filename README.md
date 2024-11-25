@@ -60,6 +60,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 ## todo: 
-- create a summary of the game when the game ends. (4 squares representing the words, colored by their corresponding group.)
-- fix general element position and styles, work on responsive design. fixed div sizes for content.
 - figure out a way to hide the group from the html element. (right now, if you inspect the page, you can find the answers)
+- implement node as the project back-end

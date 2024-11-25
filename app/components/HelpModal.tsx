@@ -19,6 +19,8 @@ const HelpModal = ({ closeHelp }: HelpModalProps)  => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" onClick={handleClickOutside}>
             <div className="bg-white p-8 rounded shadow-lg max-w-lg w-full relative">
             <h2 className="text-2xl font-bold mb-4">How to play</h2>
+            <hr className="my-3 border-black rounded"></hr>
+
             <p className="mb-2">• Your challenge is to figure out the connecting theme between groups of words. Each group has 4 words and exactly one solution.</p>
             <p className="mb-2">• The game may trick you with words that seem to belong to multiple categories.</p>
             <p className="mb-2">• Click the words to select them, and click <b>Submit</b> to check if your guess is correct.</p>

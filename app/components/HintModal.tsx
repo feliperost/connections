@@ -16,7 +16,7 @@ const HintModal = ({ closeHint }: HintModalProps)  => {
     const [revealedHints, setRevealedHints] = useState<string[]>([]);
 
     const handleHintClick = (group: string) => {
-    // verifies if clicked hint group is already in the array above. if not, adds it to the array.
+    // verifies if clicked hint group is already in the array above. if not, adds it to the array. used to make clicking a single hint not reveal the other hints.
       if (!revealedHints.includes(group)) {
         setRevealedHints([...revealedHints, group]);
       }
@@ -35,7 +35,9 @@ const HintModal = ({ closeHint }: HintModalProps)  => {
             <div className="bg-white p-8 rounded shadow-lg max-w-lg w-full relative">
                 
             <h2 className="text-2xl font-bold mb-4">Need a hint?</h2>
-            <p className="mb-2">Each category has a different difficulty level. Yellow is the simplest, and purple is the most difficult. Click or tap each level to reveal one of the words in that category.</p>
+            <hr className="my-3 border-black rounded"></hr>
+            <p className="mb-4">Each category has a different difficulty level. Yellow is the simplest, and purple is the most difficult. Click or tap each level to reveal one of the words in that category.</p>
+            
 
         <div>
             {/* we use an array with the group prefixes to iterate through */}
