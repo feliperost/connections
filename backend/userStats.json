@@ -1,0 +1,17 @@
+[
+  {
+    "userId": "98314295-8578-4ecb-929d-5d8261716369",
+    "gamesCompleted": 0,
+    "winPercentage": 0,
+    "currentStreak": 0,
+    "maxStreak": 0,
+    "perfectPuzzles": 0,
+    "mistakeHistogram": {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0
+    }
+  }
+]
