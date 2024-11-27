@@ -44,6 +44,26 @@ export default function Home() {
     }
   }, [puzzleData.words, shuffledWords.length]); // this ensures the shuffle happens when words are first loaded
 
+  // used to make a initial request to server, triggering the creation of a new user if it doesnt already exists
+  useEffect(() => {
+    const createUser = async () => {
+      try {
+          const response = await fetch("http://localhost:5000/", {
+              method: "GET",
+              credentials: "include",
+          });
+  
+          if (!response.ok) {
+              console.error("Failed to create user:", response.status, response.statusText);
+          }
+      } catch (error) {
+          console.error("Error creating user:", error);
+      }
+  };
+  
+    createUser();
+}, []);
+
   // function to shuffle words when the "Shuffle" button is clicked
   const handleShuffle = () => {
     setShuffledWords(shuffleArray(puzzleData.words)); 
