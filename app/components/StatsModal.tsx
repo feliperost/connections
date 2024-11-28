@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { X } from 'lucide-react';
+import useLogic from "./useLogic";
 
 interface StatsModalProps {
   closeStats: () => void;
@@ -18,7 +19,16 @@ interface UserStats {
 
 const StatsModal = ({ closeStats }: StatsModalProps)  => {
 
+    const { puzzleData } = useLogic();
     const [userStats, setUserStats] = useState<UserStats | null>(null);
+
+    // calculating the user win percentage 
+    // completed games with default value of 0
+    const completedGames = userStats?.gamesCompleted ?? 0; 
+    // + is used to convert the string to number
+    const totalGames = +puzzleData.puzzleNumber; 
+    // calculates win% and rounds it
+    const winPercentage = Math.round((completedGames / totalGames) * 100);
 
     // fetching the user data
     useEffect(() => {
@@ -69,9 +79,9 @@ const StatsModal = ({ closeStats }: StatsModalProps)  => {
                     <div className="text-xl">{userStats?.gamesCompleted}</div>
                     <div className="text-xs">Completed</div>
                 </div>
-
+                
                 <div className="text-center">
-                    <div className="text-xl">{userStats?.winPercentage}</div>
+                    <div className="text-xl">{winPercentage}</div>
                     <div className="text-xs">Win %</div>
                 </div>
 
@@ -92,7 +102,7 @@ const StatsModal = ({ closeStats }: StatsModalProps)  => {
                 </div>
             <hr className="my-3 border-black rounded"></hr>
 
-            <p>{userStats?.perfectPuzzles}</p>
+            <div>{userStats?.mistakeHistogram[0]}</div>
               
             <p>Mistake Histogram: A graph showing the number of puzzles you have solved with 0 to 4 mistakes. Horizontal bars graph.</p>
             
