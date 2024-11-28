@@ -47,7 +47,7 @@ const upsertUserStats = (userId, updates) => {
       currentStreak: 0,
       maxStreak: 0,
       perfectPuzzles: 0,
-      mistakeHistogram: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 },
+      mistakeHistogram: { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0 },
     };
     stats.push(userStats);
   }

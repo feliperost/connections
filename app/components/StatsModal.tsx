@@ -102,8 +102,45 @@ const StatsModal = ({ closeStats }: StatsModalProps)  => {
                 </div>
             <hr className="my-3 border-black rounded"></hr>
 
-            <div>{userStats?.mistakeHistogram[0]}</div>
-              
+            <div className="space-y-2">
+              <div className="flex items-center">
+                <span className="w-10 text-right pr-2">0:</span>
+                <div
+                  className="bg-gray-500 h-2"
+                  style={{ width: `${(userStats?.mistakeHistogram[0] || 0) * 10}px` }}
+                ></div>
+              </div>
+              <div className="flex items-center">
+                <span className="w-10 text-right pr-2">1:</span>
+                <div
+                  className="bg-gray-500 h-2"
+                  style={{ width: `${(userStats?.mistakeHistogram[1] || 0) * 10}px` }}
+                ></div>
+              </div>
+              <div className="flex items-center">
+                <span className="w-10 text-right pr-2">2:</span>
+                <div
+                  className="bg-gray-500 h-2"
+                  style={{ width: `${(userStats?.mistakeHistogram[2] || 0) * 10}px` }}
+                ></div>
+              </div>
+              <div className="flex items-center">
+                <span className="w-10 text-right pr-2">3:</span>
+                <div
+                  className="bg-gray-500 h-2"
+                  style={{ width: `${(userStats?.mistakeHistogram[3] || 0) * 10}px` }}
+                ></div>
+              </div>
+              <div className="flex items-center">
+                <span className="w-10 text-right pr-2">4:</span>
+                <div
+                  className="bg-gray-500 h-2"
+                  style={{ width: `${(userStats?.mistakeHistogram[4] || 0) * 10}px` }}
+                ></div>
+              </div>
+            </div>
+
+      
             <p>Mistake Histogram: A graph showing the number of puzzles you have solved with 0 to 4 mistakes. Horizontal bars graph.</p>
             
             <button onClick={closeStats} className="p-2 rounded absolute top-2 right-2">
