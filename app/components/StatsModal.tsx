@@ -95,53 +95,80 @@ const StatsModal = ({ closeStats }: StatsModalProps)  => {
                     <div className="text-xs">Max Streak</div>
                 </div>
             </div>
+
             <hr className="my-3 border-black rounded"></hr>
+        
             <div className="text-center">
                     <div className="text-xl">{userStats?.perfectPuzzles}</div>
                     <div className="text-xs">Perfect Puzzles</div>
                 </div>
+
             <hr className="my-3 border-black rounded"></hr>
 
+            <h2 className="mb-2 font-bold text-sm">MISTAKE DISTRIBUTION</h2>
             <div className="space-y-2">
               <div className="flex items-center">
-                <span className="w-10 text-right pr-2">0:</span>
+                <span className="w-5 text-left pr-2 font-bold">0</span>
                 <div
-                  className="bg-gray-500 h-2"
-                  style={{ width: `${(userStats?.mistakeHistogram[0] || 0) * 10}px` }}
-                ></div>
+                  className="bg-gray-500/70 h-2 px-1 flex justify-end items-center text-white font-bold"
+                  style={{ width: `${(userStats?.mistakeHistogram[0] || 0) * 12}px`,
+                  minWidth: '18px',
+                  height: '20px' }}
+                >
+                  {userStats?.mistakeHistogram[0]}
+                </div>
               </div>
+
               <div className="flex items-center">
-                <span className="w-10 text-right pr-2">1:</span>
+                <span className="w-5 text-left pr-2 font-bold">1</span>
                 <div
-                  className="bg-gray-500 h-2"
-                  style={{ width: `${(userStats?.mistakeHistogram[1] || 0) * 10}px` }}
-                ></div>
+                  className="bg-gray-500/70 h-2 px-1 flex justify-end items-center text-white font-bold"
+                  style={{ width: `${(userStats?.mistakeHistogram[1] || 0) * 12}px`,
+                  minWidth: '18px',
+                  height: '20px' }}
+                >
+                  {userStats?.mistakeHistogram[1]}
+                </div>
               </div>
+
               <div className="flex items-center">
-                <span className="w-10 text-right pr-2">2:</span>
+                <span className="w-5 text-left pr-2 font-bold">2</span>
                 <div
-                  className="bg-gray-500 h-2"
-                  style={{ width: `${(userStats?.mistakeHistogram[2] || 0) * 10}px` }}
-                ></div>
+                  className="bg-gray-500/70 h-2 px-1 flex justify-end items-center text-white font-bold"
+                  style={{ width: `${(userStats?.mistakeHistogram[2] || 0) * 12}px`,
+                  minWidth: '18px',
+                  height: '20px' }}
+                >
+                  {userStats?.mistakeHistogram[2]}
+                </div>
               </div>
+
               <div className="flex items-center">
-                <span className="w-10 text-right pr-2">3:</span>
+                <span className="w-5 text-left pr-2 font-bold">3</span>
                 <div
-                  className="bg-gray-500 h-2"
-                  style={{ width: `${(userStats?.mistakeHistogram[3] || 0) * 10}px` }}
-                ></div>
+                  className="bg-gray-500/70 h-2 px-1 flex justify-end items-center text-white font-bold"
+                  style={{ width: `${(userStats?.mistakeHistogram[3] || 0) * 12}px`,
+                  minWidth: '18px',
+                  height: '20px' }}
+                >
+                  {userStats?.mistakeHistogram[3]}
+                </div>
               </div>
+
               <div className="flex items-center">
-                <span className="w-10 text-right pr-2">4:</span>
+                <span className="w-5 text-left pr-2 font-bold">4</span>
                 <div
-                  className="bg-gray-500 h-2"
-                  style={{ width: `${(userStats?.mistakeHistogram[4] || 0) * 10}px` }}
-                ></div>
+                  className="bg-gray-500/70 h-2 px-1 flex justify-end items-center text-white font-bold"
+                  style={{ width: `${(userStats?.mistakeHistogram[4] || 0) * 12}px`,
+                  minWidth: '18px',
+                  height: '20px' }}
+                >
+                  {userStats?.mistakeHistogram[4]}
+                </div>
               </div>
             </div>
-
       
-            <p>Mistake Histogram: A graph showing the number of puzzles you have solved with 0 to 4 mistakes. Horizontal bars graph.</p>
+            <p className="mt-2 text-sm text-gray-600">The graph shows the number of puzzles you have solved with 0 to 4 mistakes.</p>
             
             <button onClick={closeStats} className="p-2 rounded absolute top-2 right-2">
                 <X />
