@@ -24,7 +24,7 @@ export default function Home() {
   // state for locked words, pressing submit makes them static when all 4 are from the same group and display them at the top of grid
   const [lockedWords, setLockedWords] = useState<{ word: string; group: string }[][]>([]);
 
-  // state to control number of tries and mistakes the user can make
+  // state to control game lifes (number of tries and mistakes the user can make)
   const [mistakesRemaining, setMistakesRemaining] = useState(4);
 
   // shuffle function using Fisher-Yates algorithm
@@ -63,6 +63,47 @@ export default function Home() {
   
     createUser();
 }, []);
+
+  // game over stats to be sent to the backend, and used in user stats
+  useEffect(() => {
+    // check when game ends (all mistakes have been made, so its game over)
+    if (mistakesRemaining === 0) {
+      // getting the userId through cookies
+      const userId = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("userId="))
+        ?.split("=")[1];
+  
+      if (!userId) {
+        console.error("User ID not found in cookies.");
+        return;
+      }
+  
+      // Reset current streak on game over
+      const resetStats = { currentStreak: 0 };
+  
+      fetch(`http://localhost:5000/stats/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(resetStats), // Send only the reset payload
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to update stats');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log('Stats successfully updated:', data);
+        })
+        .catch((error) => {
+          console.error('Error updating stats:', error);
+        });
+    }
+  }, [mistakesRemaining]);
+  
 
   // function to shuffle words when the "Shuffle" button is clicked
   const handleShuffle = () => {
