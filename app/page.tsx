@@ -44,31 +44,29 @@ export default function Home() {
     }
   }, [puzzleData.words, shuffledWords.length]); // this ensures the shuffle happens when words are first loaded
 
-  // used to make a initial request to server, triggering the creation of a new user if it doesnt already exists
+  // used to make a initial request to server, triggering the creation of a new user if it doesnt already exists... it 
   useEffect(() => {
-    const createUser = async () => {
-      try {
-          const response = await fetch("http://localhost:5000/", {
-              method: "GET",
-              credentials: "include",
-          });
+    const userId = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("userId="))
+      ?.split("=")[1];
   
-          if (!response.ok) {
-              console.error("Failed to create user:", response.status, response.statusText);
-          }
-      } catch (error) {
-          console.error("Error creating user:", error);
-      }
-  };
-  
-    createUser();
-}, []);
+    if (!userId) {
+      fetch("http://localhost:5000/initializeUser", {
+        method: "POST",
+        credentials: "include",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("User initialized:", data);
+        })
+        .catch((error) => console.error("Error initializing user:", error));
+    }
+  }, []);
 
   // game over stats to be sent to the backend, and used in user stats
   useEffect(() => {
-    // check when game ends (all mistakes have been made, so its game over)
     if (mistakesRemaining === 0) {
-      // getting the userId through cookies
       const userId = document.cookie
         .split("; ")
         .find((row) => row.startsWith("userId="))
@@ -79,27 +77,28 @@ export default function Home() {
         return;
       }
   
-      // Reset current streak on game over
-      const resetStats = { currentStreak: 0 };
+      console.log("User ID retrieved from cookies:", userId);
+  
+      const resetSreak = { currentStreak: 0 };
   
       fetch(`http://localhost:5000/stats/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(resetStats), // Send only the reset payload
+        body: JSON.stringify(resetSreak),
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error('Failed to update stats');
+            throw new Error("Failed to update stats");
           }
           return response.json();
         })
         .then((data) => {
-          console.log('Stats successfully updated:', data);
+          console.log("Stats successfully updated:", data);
         })
         .catch((error) => {
-          console.error('Error updating stats:', error);
+          console.error("Error updating stats:", error);
         });
     }
   }, [mistakesRemaining]);

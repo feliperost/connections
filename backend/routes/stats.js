@@ -26,6 +26,15 @@ router.post('/:userId', (req, res) => {
   const { userId } = req.params;
   const updates = req.body;
 
+  const existingUser = getUserStats(userId);
+  if (!existingUser) {
+    return res.status(404).json({ error: "User not found." });
+  }
+
+  if (updates.gameWon === false) {
+    updates.currentStreak = 0;
+  }
+
   const updatedStats = upsertUserStats(userId, updates);
   res.status(200).json(updatedStats);
 });

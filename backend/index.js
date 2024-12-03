@@ -2,7 +2,7 @@ const express = require('express');
 const statsRoutes = require('./routes/stats');
 const cookieParser = require('cookie-parser'); // used to deal with cookies
 const { v4: uuidv4 } = require('uuid'); // generates unique IDs
-const { upsertUserStats } = require('./models/UserStats');
+const { upsertUserStats, getUserStats } = require('./models/UserStats');
 
 const app = express();
 const PORT = 5000;
@@ -21,18 +21,27 @@ app.use(cookieParser());
 app.use((req, res, next) => {
   let userId = req.cookies.userId;
 
+  // Check if the userId exists in the database
   if (!userId) {
-    userId = uuidv4(); // generates a new userId if it doesn't exist
-    // setting the cookie parameters
-    res.cookie("userId", userId, { 
-      httpOnly: false, 
-      secure: false, 
-      path: '/', 
-      sameSite: 'Lax', 
-      maxAge: 1000 * 60 * 60 * 24 * 10 // cookie lasts for 10 days (development)
+    userId = uuidv4();
+    res.cookie("userId", userId, {
+      httpOnly: false,
+      secure: false,
+      path: '/',
+      sameSite: 'Lax',
+      maxAge: 1000 * 60 * 60 * 24 * 10,
     });
+  }
+  req.userId = userId; // makes userId available in all requests
+  next();
+});
 
-    // creates default stats for new users (all set to 0 by default, see schema)
+// creates a new user if it doesnt exist
+app.post('/initializeUser', (req, res) => {
+  const userId = req.userId;
+
+  const existingUser = getUserStats(userId);
+  if (!existingUser) {
     upsertUserStats(userId, {
       gamesCompleted: 0,
       winPercentage: 0,
@@ -43,8 +52,7 @@ app.use((req, res, next) => {
     });
   }
 
-  req.userId = userId; // makes userId available in all requests
-  next();
+  res.status(200).json({ userId });
 });
 
 // default server route

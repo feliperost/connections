@@ -1,6 +1,6 @@
 [
   {
-    "userId": "0a5e78ea-69d0-4ed5-abdf-c7e9b3dcf32e",
+    "userId": "e01db982-48b5-4237-ae2f-79ca48cedfa6",
     "gamesCompleted": 0,
     "winPercentage": 0,
     "currentStreak": 0,
@@ -15,17 +15,17 @@
     }
   },
   {
-    "userId": "820473cb-0282-4a1a-ad4f-3ac33eae0de1",
-    "gamesCompleted": 1,
+    "userId": "ace8e823-e9a9-4ee4-8bfb-d8927d87df4f",
+    "gamesCompleted": 0,
     "winPercentage": 0,
     "currentStreak": 0,
-    "maxStreak": 1,
-    "perfectPuzzles": 1,
+    "maxStreak": 0,
+    "perfectPuzzles": 0,
     "mistakeHistogram": {
-      "0": 1,
-      "1": 2,
-      "2": 3,
-      "3": 25,
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
       "4": 0
     }
   }
