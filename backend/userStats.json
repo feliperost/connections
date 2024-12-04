@@ -16,17 +16,17 @@
   },
   {
     "userId": "ace8e823-e9a9-4ee4-8bfb-d8927d87df4f",
-    "gamesCompleted": 0,
+    "gamesCompleted": 1,
     "winPercentage": 0,
     "currentStreak": 0,
-    "maxStreak": 0,
-    "perfectPuzzles": 0,
+    "maxStreak": 2,
+    "perfectPuzzles": 3,
     "mistakeHistogram": {
-      "0": 0,
-      "1": 0,
-      "2": 0,
+      "0": 2,
+      "1": 4,
+      "2": 3,
       "3": 0,
-      "4": 0
+      "4": 8
     }
   }
 ]

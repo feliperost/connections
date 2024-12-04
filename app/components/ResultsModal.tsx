@@ -5,11 +5,30 @@ import useLogic from "./useLogic";
 interface ResultsModalProps {
   closeResults: () => void;
   guessedWords: { word: string; group: string }[][];
+  userStats: UserStats | null;
 }
 
-const ResultsModal = ({ closeResults, guessedWords }: ResultsModalProps)  => {
+interface UserStats {
+    userId: string;
+    gamesCompleted: number;
+    winPercentage: number;
+    currentStreak: number;
+    maxStreak: number;
+    perfectPuzzles: number;
+    mistakeHistogram: { [key: string]: number };
+  }
+
+const ResultsModal = ({ closeResults, guessedWords, userStats }: ResultsModalProps)  => {
 
     const { puzzleData } = useLogic();
+
+    // calculating the user win percentage 
+    // completed games with default value of 0
+    const completedGames = userStats?.gamesCompleted ?? 0; 
+    // + is used to convert the string to number
+    const totalGames = +puzzleData.puzzleNumber; 
+    // calculates win% and rounds it
+    const winPercentage = Math.round((completedGames / totalGames) * 100);
 
     const handleClickOutside = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         // checks for outside click to close modal
@@ -62,22 +81,22 @@ const ResultsModal = ({ closeResults, guessedWords }: ResultsModalProps)  => {
 
             <div className="flex justify-center space-x-8 my-3">
                 <div className="text-center">
-                    <div className="text-xl">15</div>
+                    <div className="text-xl">{userStats?.gamesCompleted}</div>
                     <div className="text-xs">Completed</div>
                 </div>
-
+                
                 <div className="text-center">
-                    <div className="text-xl">55</div>
+                    <div className="text-xl">{winPercentage}</div>
                     <div className="text-xs">Win %</div>
                 </div>
 
                 <div className="text-center">
-                    <div className="text-xl">0</div>
+                    <div className="text-xl">{userStats?.currentStreak}</div>
                     <div className="text-xs">Current streak</div>
                 </div>
 
                 <div className="text-center">
-                    <div className="text-xl">2</div>
+                    <div className="text-xl">{userStats?.maxStreak}</div>
                     <div className="text-xs">Max Streak</div>
                 </div>
 

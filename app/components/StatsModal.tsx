@@ -1,10 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
 import { X } from 'lucide-react';
 import useLogic from "./useLogic";
 
 interface StatsModalProps {
   closeStats: () => void;
+  userStats: UserStats | null;
 }
 
 interface UserStats {
@@ -17,10 +17,9 @@ interface UserStats {
     mistakeHistogram: { [key: string]: number };
   }
 
-const StatsModal = ({ closeStats }: StatsModalProps)  => {
+const StatsModal = ({ closeStats, userStats }: StatsModalProps)  => {
 
     const { puzzleData } = useLogic();
-    const [userStats, setUserStats] = useState<UserStats | null>(null);
 
     // calculating the user win percentage 
     // completed games with default value of 0
@@ -30,34 +29,6 @@ const StatsModal = ({ closeStats }: StatsModalProps)  => {
     // calculates win% and rounds it
     const winPercentage = Math.round((completedGames / totalGames) * 100);
 
-    // fetching the user data
-    useEffect(() => {
-        const fetchStats = async () => {
-          try {
-            // getting the browser cookie
-            const userId = document.cookie
-              .split("; ")
-              .find((row) => row.startsWith("userId="))
-              ?.split("=")[1];
-          
-            const response = await fetch(`http://localhost:5000/stats/${userId}`, {
-              credentials: "include", // includes cookies on request
-            });
-      
-            if (response.ok) {
-              const data: UserStats = await response.json();
-              setUserStats(data);
-            } else {
-              const errorData = await response.json();
-              console.error("Error fetching stats:", errorData);
-            }
-          } catch (error) {
-            console.log("Error fetching stats:", error);
-          }
-        };
-      
-        fetchStats();
-      }, []);
 
     const handleClickOutside = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         // checks for outside click to close modal

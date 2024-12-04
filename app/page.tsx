@@ -8,6 +8,15 @@ import useLogic from "./components/useLogic";
 import { useState, useEffect } from "react";
 import { Lightbulb, SquareChartGantt, CircleHelp } from 'lucide-react';
 
+interface UserStats {
+  userId: string;
+  gamesCompleted: number;
+  winPercentage: number;
+  currentStreak: number;
+  maxStreak: number;
+  perfectPuzzles: number;
+  mistakeHistogram: { [key: string]: number };
+}
 
 export default function Home() {
   const { puzzleData } = useLogic();
@@ -26,6 +35,9 @@ export default function Home() {
 
   // state to control game lifes (number of tries and mistakes the user can make)
   const [mistakesRemaining, setMistakesRemaining] = useState(4);
+
+  // used to control user stats (used in stats and results modals)
+  const [userStats, setUserStats] = useState<UserStats | null>(null);
 
   // shuffle function using Fisher-Yates algorithm
   const shuffleArray = (array: { word: string; group: string }[]) => {
@@ -62,6 +74,35 @@ export default function Home() {
         })
         .catch((error) => console.error("Error initializing user:", error));
     }
+  }, []);
+
+  // fetching the user data
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        // getting the browser cookie
+        const userId = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("userId="))
+          ?.split("=")[1];
+      
+        const response = await fetch(`http://localhost:5000/stats/${userId}`, {
+          credentials: "include", // includes cookies on request
+        });
+  
+        if (response.ok) {
+          const data: UserStats = await response.json();
+          setUserStats(data);
+        } else {
+          const errorData = await response.json();
+          console.error("Error fetching stats:", errorData);
+        }
+      } catch (error) {
+        console.log("Error fetching stats:", error);
+      }
+    };
+  
+    fetchStats();
   }, []);
 
   // game over stats to be sent to the backend, and used in user stats
@@ -301,7 +342,7 @@ export default function Home() {
             <button onClick={openStats} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">
               <SquareChartGantt />
             </button>
-            {isStatsVisible && <StatsModal closeStats={closeStats} />}
+            {isStatsVisible && <StatsModal closeStats={closeStats} userStats={userStats}/>}
 
             <button onClick={openHint} className="top-0 right-0 p-2 ml-2 w-[40px] rounded-full bg-blue-500 text-white font-bold hover:bg-blue-400 transition">
             <Lightbulb />
@@ -439,7 +480,7 @@ export default function Home() {
                 View Results
               </button>
             </div>
-            {isResultsVisible && <ResultsModal guessedWords={guessedWords} closeResults={closeResults} />}
+            {isResultsVisible && <ResultsModal guessedWords={guessedWords} closeResults={closeResults} userStats={userStats}/>}
           </div>
         </div>
       )}
