@@ -11,7 +11,6 @@ import { Lightbulb, SquareChartGantt, CircleHelp } from 'lucide-react';
 interface UserStats {
   userId: string;
   gamesCompleted: number;
-  winPercentage: number;
   currentStreak: number;
   maxStreak: number;
   perfectPuzzles: number;

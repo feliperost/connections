@@ -2,7 +2,6 @@
   {
     "userId": "e01db982-48b5-4237-ae2f-79ca48cedfa6",
     "gamesCompleted": 0,
-    "winPercentage": 0,
     "currentStreak": 0,
     "maxStreak": 0,
     "perfectPuzzles": 0,
@@ -17,7 +16,6 @@
   {
     "userId": "ace8e823-e9a9-4ee4-8bfb-d8927d87df4f",
     "gamesCompleted": 1,
-    "winPercentage": 0,
     "currentStreak": 0,
     "maxStreak": 2,
     "perfectPuzzles": 3,
