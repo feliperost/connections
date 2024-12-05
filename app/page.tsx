@@ -55,53 +55,49 @@ export default function Home() {
     }
   }, [puzzleData.words, shuffledWords.length]); // this ensures the shuffle happens when words are first loaded
 
-  // used to make a initial request to server, triggering the creation of a new user if it doesnt already exists... it 
+  // used to make a initial request to server, triggering the creation of a new user if it doesnt already exists... 
   useEffect(() => {
-    const userId = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("userId="))
-      ?.split("=")[1];
-  
-    if (!userId) {
-      fetch("http://localhost:5000/initializeUser", {
-        method: "POST",
-        credentials: "include",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("User initialized:", data);
-        })
-        .catch((error) => console.error("Error initializing user:", error));
-    }
-  }, []);
-
-  // fetching the user data
-  useEffect(() => {
-    const fetchStats = async () => {
+    const initializeAndFetchUser = async () => {
       try {
-        // getting the browser cookie
-        const userId = document.cookie
+        // step 1: checks if userId exists in cookies
+        let userId = document.cookie
           .split("; ")
           .find((row) => row.startsWith("userId="))
           ?.split("=")[1];
-      
-        const response = await fetch(`http://localhost:5000/stats/${userId}`, {
-          credentials: "include", // includes cookies on request
+  
+        // step 2: create a new user if userId doesn't exist
+        if (!userId) {
+          const initializeResponse = await fetch("http://localhost:5000/initializeUser", {
+            method: "POST",
+            credentials: "include",
+          });
+  
+          if (initializeResponse.ok) {
+            const data = await initializeResponse.json();
+            userId = data.userId; // retrieve the newly created userId
+          } else {
+            throw new Error("Failed to initialize user");
+          }
+        }
+  
+        // step 3: fetch user stats using the userId
+        const statsResponse = await fetch(`http://localhost:5000/stats/${userId}`, {
+          credentials: "include",
         });
   
-        if (response.ok) {
-          const data: UserStats = await response.json();
-          setUserStats(data);
+        if (statsResponse.ok) {
+          const statsData: UserStats = await statsResponse.json();
+          setUserStats(statsData); // update state with the user's stats
         } else {
-          const errorData = await response.json();
+          const errorData = await statsResponse.json();
           console.error("Error fetching stats:", errorData);
         }
       } catch (error) {
-        console.log("Error fetching stats:", error);
+        console.error("Error during initialization or fetching stats:", error);
       }
     };
   
-    fetchStats();
+    initializeAndFetchUser();
   }, []);
 
   // game over stats to be sent to the backend, and used in user stats

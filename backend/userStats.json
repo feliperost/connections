@@ -1,6 +1,6 @@
 [
   {
-    "userId": "e01db982-48b5-4237-ae2f-79ca48cedfa6",
+    "userId": "4aef4140-3e3e-4477-ab6b-78e01301f461",
     "gamesCompleted": 0,
     "currentStreak": 0,
     "maxStreak": 0,
@@ -14,17 +14,17 @@
     }
   },
   {
-    "userId": "ace8e823-e9a9-4ee4-8bfb-d8927d87df4f",
+    "userId": "7cfc5657-a1f9-44bb-a984-b71a5e4351c8",
     "gamesCompleted": 1,
-    "currentStreak": 0,
+    "currentStreak": 3,
     "maxStreak": 2,
-    "perfectPuzzles": 3,
+    "perfectPuzzles": 1,
     "mistakeHistogram": {
-      "0": 2,
-      "1": 4,
-      "2": 3,
-      "3": 0,
-      "4": 8
+      "0": 0,
+      "1": 2,
+      "2": 5,
+      "3": 6,
+      "4": 0
     }
   }
 ]

@@ -74,6 +74,7 @@ module.exports = { getStats, getUserStats, upsertUserStats };
 // curl -X POST -H "Content-Type: application/json" \
 //   -d '{
 //         "gamesCompleted": 10,
+//         "winPercentage": 80,
 //         "currentStreak": 5,
 //         "maxStreak": 10,
 //         "perfectPuzzles": 3,
