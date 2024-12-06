@@ -5,7 +5,7 @@ import HintModal from "./components/HintModal";
 import StatsModal from "./components/StatsModal";
 import ResultsModal from "./components/ResultsModal";
 import useLogic from "./components/useLogic";
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Lightbulb, SquareChartGantt, CircleHelp } from 'lucide-react';
 
 interface UserStats {
@@ -57,7 +57,7 @@ export default function Home() {
 
   // used to make a initial request to server, triggering the creation of a new user if it doesnt already exists... 
   useEffect(() => {
-    const initializeAndFetchUser = async () => {
+    const fetchOrCreateUser = async () => {
       try {
         // step 1: checks if userId exists in cookies
         let userId = document.cookie
@@ -97,23 +97,16 @@ export default function Home() {
       }
     };
   
-    initializeAndFetchUser();
+    fetchOrCreateUser();
   }, []);
 
-  // game over stats to be sent to the backend, and used in user stats
+  // GAME OVER SCENARIO: we send an update on stats to the backend, updating user stats
   useEffect(() => {
     if (mistakesRemaining === 0) {
       const userId = document.cookie
         .split("; ")
         .find((row) => row.startsWith("userId="))
         ?.split("=")[1];
-  
-      if (!userId) {
-        console.error("User ID not found in cookies.");
-        return;
-      }
-  
-      console.log("User ID retrieved from cookies:", userId);
   
       const resetSreak = { currentStreak: 0 };
   
@@ -138,6 +131,57 @@ export default function Home() {
         });
     }
   }, [mistakesRemaining]);
+
+  // WIN SCENARIO: we check if there are no more words available to be selected, and then trigger the effects
+  const hasUpdatedStats = useRef(false); // using useRef to control update and exit a potential loop
+
+  useEffect(() => {
+    // flag to check if a update to stats has already been made. if stats have been updated, stops the execution
+    if (hasUpdatedStats.current) return;
+
+    const allWords = puzzleData.words;
+    const totalLockedWords = lockedWords.flat().length;
+
+    // getting all possible words, and then comparing it to the length of lockedWords array
+    if (totalLockedWords === allWords.length) {
+      const userId = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("userId="))
+        ?.split("=")[1];
+
+      // for now, winning increases currentStreak by 1
+      const updatedStats = {
+        currentStreak: (userStats?.currentStreak || 0) + 1,
+      };
+
+      // send the update to backend
+      fetch(`http://localhost:5000/stats/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedStats),
+      })
+        .then(() => {
+          // after updating, we fetch the updated stats (for child components)
+          const getUpdatedStats = async () => {
+            const statsResponse = await fetch(`http://localhost:5000/stats/${userId}`, {
+              credentials: "include",
+            });
+
+            if (statsResponse.ok) {
+              const statsData: UserStats = await statsResponse.json();
+              setUserStats(statsData); // updates state with updated stats
+              hasUpdatedStats.current = true; // marking as true to break out of loop
+            }
+          };
+          getUpdatedStats();
+        })
+        .catch((error) => {
+          console.error('Error updating user stats:', error);
+        });
+    }
+  }, [lockedWords, puzzleData.words, userStats]);
   
 
   // function to shuffle words when the "Shuffle" button is clicked

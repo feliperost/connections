@@ -1,19 +1,5 @@
 [
   {
-    "userId": "4aef4140-3e3e-4477-ab6b-78e01301f461",
-    "gamesCompleted": 0,
-    "currentStreak": 0,
-    "maxStreak": 0,
-    "perfectPuzzles": 0,
-    "mistakeHistogram": {
-      "0": 0,
-      "1": 0,
-      "2": 0,
-      "3": 0,
-      "4": 0
-    }
-  },
-  {
     "userId": "7cfc5657-a1f9-44bb-a984-b71a5e4351c8",
     "gamesCompleted": 1,
     "currentStreak": 3,

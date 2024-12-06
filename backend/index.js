@@ -33,6 +33,12 @@ app.use((req, res, next) => {
     });
   }
   req.userId = userId; // makes userId available in all requests
+  
+  const { method, originalUrl } = req;
+  const referer = req.headers.referer || 'N/A';
+  const userAgent = req.headers['user-agent'] || 'Unknown';
+  console.log(`[${new Date().toISOString()}] ${method} ${originalUrl} - Referer: ${referer} - User-Agent: ${userAgent}`);
+
   next();
 });
 
