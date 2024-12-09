@@ -138,11 +138,11 @@ export default function Home() {
   useEffect(() => {
     // flag to check if a update to stats has already been made. if stats have been updated, stops the execution
     if (hasUpdatedStats.current) return;
-
+    
+    // getting all possible words, and then comparing it to the length of lockedWords array
     const allWords = puzzleData.words;
     const totalLockedWords = lockedWords.flat().length;
-
-    // getting all possible words, and then comparing it to the length of lockedWords array
+    
     if (totalLockedWords === allWords.length) {
       const userId = document.cookie
         .split("; ")
@@ -151,7 +151,25 @@ export default function Home() {
 
       // for now, winning increases currentStreak by 1
       const updatedStats = {
+        gamesCompleted: (userStats?.gamesCompleted || 0) + 1,
         currentStreak: (userStats?.currentStreak || 0) + 1,
+        // updates max streak with either: max streak, or current streak if now its bigger than maxstreak (meaning current streak now is the maxstreak)
+        maxStreak: Math.max(
+          (userStats?.currentStreak || 0) + 1, // new streak
+          userStats?.maxStreak || 0 // older max streak
+        ),      
+        // if no mistakes have been made, increase perfect puzzles
+        perfectPuzzles:
+        mistakesRemaining === 4
+          ? (userStats?.perfectPuzzles || 0) + 1
+          : userStats?.perfectPuzzles || 0,
+
+        // updates mistake histogram with number of mistakes made
+        mistakeHistogram: {
+          ...(userStats?.mistakeHistogram || {}), // copy existing values
+          [4 - mistakesRemaining]:
+            (userStats?.mistakeHistogram?.[4 - mistakesRemaining] || 0) + 1,
+        },
       };
 
       // send the update to backend
@@ -181,7 +199,7 @@ export default function Home() {
           console.error('Error updating user stats:', error);
         });
     }
-  }, [lockedWords, puzzleData.words, userStats]);
+  }, [lockedWords, puzzleData.words, userStats, mistakesRemaining]);
   
 
   // function to shuffle words when the "Shuffle" button is clicked
