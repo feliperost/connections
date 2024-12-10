@@ -102,34 +102,44 @@ export default function Home() {
 
   // GAME OVER SCENARIO: we send an update on stats to the backend, updating user stats
   useEffect(() => {
+    // flag to check if a update to stats has already been made. if stats have been updated, stops the execution
+    if (hasUpdatedStats.current) return;
+    
     if (mistakesRemaining === 0) {
       const userId = document.cookie
         .split("; ")
         .find((row) => row.startsWith("userId="))
         ?.split("=")[1];
   
-      const resetSreak = { currentStreak: 0 };
+      const resetStreak = { currentStreak: 0 };
   
+      // send the update to backend
       fetch(`http://localhost:5000/stats/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(resetSreak),
+        body: JSON.stringify(resetStreak),
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to update stats");
+      .then(() => {
+        // after updating, we fetch the updated stats (for child components)
+        const getUpdatedStats = async () => {
+          const statsResponse = await fetch(`http://localhost:5000/stats/${userId}`, {
+            credentials: "include",
+          });
+
+          if (statsResponse.ok) {
+            const statsData: UserStats = await statsResponse.json();
+            setUserStats(statsData); // updates state with updated stats
+            hasUpdatedStats.current = true; // marking as true to break out of loop
           }
-          return response.json();
-        })
-        .then((data) => {
-          console.log("Stats successfully updated:", data);
-        })
-        .catch((error) => {
-          console.error("Error updating stats:", error);
-        });
-    }
+        };
+        getUpdatedStats();
+      })
+      .catch((error) => {
+        console.error('Error updating user stats:', error);
+      });
+  }
   }, [mistakesRemaining]);
 
   // WIN SCENARIO: we check if there are no more words available to be selected, and then trigger the effects
