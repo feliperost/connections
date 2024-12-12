@@ -100,11 +100,14 @@ export default function Home() {
     fetchOrCreateUser();
   }, []);
 
+  // USED IN WIN/GAMEOVER SCENARIOS - using useRef to control update and exit a potential loop
+  const hasUpdatedStats = useRef(false); 
+
   // GAME OVER SCENARIO: we send an update on stats to the backend, updating user stats
   useEffect(() => {
     // flag to check if a update to stats has already been made. if stats have been updated, stops the execution
     if (hasUpdatedStats.current) return;
-    
+
     if (mistakesRemaining === 0) {
       const userId = document.cookie
         .split("; ")
@@ -143,8 +146,6 @@ export default function Home() {
   }, [mistakesRemaining]);
 
   // WIN SCENARIO: we check if there are no more words available to be selected, and then trigger the effects
-  const hasUpdatedStats = useRef(false); // using useRef to control update and exit a potential loop
-
   useEffect(() => {
     // flag to check if a update to stats has already been made. if stats have been updated, stops the execution
     if (hasUpdatedStats.current) return;
@@ -159,7 +160,7 @@ export default function Home() {
         .find((row) => row.startsWith("userId="))
         ?.split("=")[1];
 
-      // for now, winning increases currentStreak by 1
+      // applying winning effects on stats
       const updatedStats = {
         gamesCompleted: (userStats?.gamesCompleted || 0) + 1,
         currentStreak: (userStats?.currentStreak || 0) + 1,
@@ -168,7 +169,7 @@ export default function Home() {
           (userStats?.currentStreak || 0) + 1, // new streak
           userStats?.maxStreak || 0 // older max streak
         ),      
-        // if no mistakes have been made, increase perfect puzzles
+        // if no mistakes have been made (4 lives remaining), increase perfect puzzles
         perfectPuzzles:
         mistakesRemaining === 4
           ? (userStats?.perfectPuzzles || 0) + 1
@@ -176,7 +177,7 @@ export default function Home() {
 
         // updates mistake histogram with number of mistakes made
         mistakeHistogram: {
-          ...(userStats?.mistakeHistogram || {}), // copy existing values
+          ...(userStats?.mistakeHistogram || {}), // copy existing values and calculate which number should increase
           [4 - mistakesRemaining]:
             (userStats?.mistakeHistogram?.[4 - mistakesRemaining] || 0) + 1,
         },
@@ -191,7 +192,7 @@ export default function Home() {
         body: JSON.stringify(updatedStats),
       })
         .then(() => {
-          // after updating, we fetch the updated stats (for child components)
+          // after updating, we fetch the updated stats back (for child components)
           const getUpdatedStats = async () => {
             const statsResponse = await fetch(`http://localhost:5000/stats/${userId}`, {
               credentials: "include",

@@ -1,12 +1,12 @@
 [
   {
     "userId": "7cfc5657-a1f9-44bb-a984-b71a5e4351c8",
-    "gamesCompleted": 7,
-    "currentStreak": 0,
+    "gamesCompleted": 8,
+    "currentStreak": 1,
     "maxStreak": 4,
-    "perfectPuzzles": 4,
+    "perfectPuzzles": 5,
     "mistakeHistogram": {
-      "0": 4,
+      "0": 5,
       "1": 2,
       "2": 1,
       "3": 0,
