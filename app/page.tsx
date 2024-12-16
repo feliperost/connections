@@ -465,6 +465,25 @@ export default function Home() {
                   );
                 })}
             </ul>
+            {// WIN SCENARIO: view results button available if the player has won
+              lockedWords.flat().length === puzzleData.words.length && (
+                <div className="flex flex-col items-center">
+                  <button
+                    className="mt-5 mx-2 transition ease-in-out font-sans font-semibold h-[50px] rounded-full border-solid border-[1px] border-black p-2 px-5 text-center content-center bg-none disabled:opacity-30"
+                    onClick={openResults}
+                  >
+                    View Results
+                  </button>
+                  {isResultsVisible && (
+                    <ResultsModal
+                      guessedWords={guessedWords}
+                      closeResults={closeResults}
+                      userStats={userStats}
+                    />
+                  )}
+                </div>
+              )
+            }
 
           </div>
   
